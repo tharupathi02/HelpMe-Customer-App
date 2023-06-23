@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">HelpMe</string>
+    <string name="welcome">Welcome,</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="identity_card_number">Identity Card Number</string>
+    <string name="skip_form_for_now">Skip Form for now >></string>
+    <string name="request_help">Request\nHelp</string>
+    <string name="make_booking">Make\nBooking</string>
+    <string name="nearby_garages">Nearby\nGarages</string>
+    <string name="nearby_shops">Nearby\nShops</string>
+    <string name="top_rated_garages">Top Rated Garages</string>
+    <string name="top_rated_shops">Top Rated Shops</string>
+    <string name="home">Home</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile">Profile</string>
+    <string name="chat">Chat</string>
+</resources>
