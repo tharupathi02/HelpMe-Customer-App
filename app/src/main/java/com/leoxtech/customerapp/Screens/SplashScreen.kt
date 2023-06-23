@@ -51,8 +51,8 @@ class SplashScreen : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = Color.WHITE
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
         fusedLocation = LocationServices.getFusedLocationProviderClient(this)
 
