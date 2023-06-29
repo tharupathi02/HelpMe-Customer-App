@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.leoxtech.customerapp.Common.Common
+import com.leoxtech.customerapp.Screens.ProfileActivity
 import com.leoxtech.customerapp.R
 import com.leoxtech.customerapp.Screens.SplashScreen
 import com.leoxtech.customerapp.databinding.FragmentProfileBinding
@@ -49,6 +50,10 @@ class ProfileFragment : Fragment() {
         binding.cardLogOut.setOnClickListener {
             signOut()
         }
+
+        binding.cardProfile.setOnClickListener {
+            startActivity(Intent(context, ProfileActivity::class.java))
+        }
     }
 
     private fun profileInfo() {
@@ -75,7 +80,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun signOut() {
-        MaterialAlertDialogBuilder(context!!)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("LogOut")
             .setMessage("Are you absolutely sure you want to log out? Confirm your decision by clicking 'Yes' to log out or 'Cancel' to continue your current session.")
             .setIcon(R.drawable.baseline_exit_to_app_24)

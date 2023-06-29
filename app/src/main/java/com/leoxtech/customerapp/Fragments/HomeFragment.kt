@@ -106,6 +106,7 @@ class HomeFragment : Fragment() {
         dbRef = FirebaseDatabase.getInstance().getReference(Common.GARAGE_REF)
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                popularArrayList.clear()
                 if (snapshot.exists()) {
                     for (popularSnapshot in snapshot.children) {
                         val popular = popularSnapshot.getValue(GarageModel::class.java)
