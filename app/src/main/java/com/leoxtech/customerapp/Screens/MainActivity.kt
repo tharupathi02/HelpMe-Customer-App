@@ -6,8 +6,15 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.leoxtech.customerapp.Adapter.PopularGarageAdapter
 import com.leoxtech.customerapp.Common.Common
+import com.leoxtech.customerapp.Fragments.ChatListFragment
+import com.leoxtech.customerapp.Fragments.EmergencyFragment
 import com.leoxtech.customerapp.Fragments.HomeFragment
 import com.leoxtech.customerapp.Fragments.ProfileFragment
 import com.leoxtech.customerapp.R
@@ -36,6 +43,8 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.navHome -> replaceFragment(HomeFragment())
                 R.id.navProfile -> replaceFragment(ProfileFragment())
+                R.id.navChat -> replaceFragment(ChatListFragment())
+                R.id.navEmergency -> replaceFragment(EmergencyFragment())
             }
             true
         }

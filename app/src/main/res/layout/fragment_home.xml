@@ -65,7 +65,6 @@
                         android:id="@+id/txtLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Colombo, Sri Lanka"
                         android:textColor="@color/black"
                         android:fontFamily="@font/poppins"
                         android:textSize="12sp"
@@ -318,6 +317,7 @@
                     android:layout_height="wrap_content"/>
 
                 <TextView
+                    android:id="@+id/txtNoGaragesFound"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No Garages Found !\nPlease Try Again Later."

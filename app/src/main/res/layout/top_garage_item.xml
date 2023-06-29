@@ -6,7 +6,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/foodListCard"
-        android:layout_width="180dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginStart="10dp"
@@ -17,14 +17,15 @@
         style="@style/Widget.Material3.CardView.Elevated"
         android:backgroundTint="@color/white">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardItem"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardElevation="8dp"
                 android:layout_margin="8dp"
@@ -35,8 +36,8 @@
 
                 <ImageView
                     android:id="@+id/imgGarageImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:src="@mipmap/ic_launcher"
                     android:alpha=".7"
                     android:scaleType="centerCrop"/>
@@ -47,62 +48,40 @@
                 android:id="@+id/txtGarageName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cardItem"
-                android:layout_marginStart="15dp"
+                android:layout_gravity="center"
                 android:fontFamily="@font/poppins_bold"
-                android:layout_centerHorizontal="true"
                 android:text="Garage Name"
                 android:textAlignment="center"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/txtGarageDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_below="@+id/txtGarageName"
+                android:layout_gravity="center"
                 android:fontFamily="@font/poppins"
                 android:text="Garage Description"
                 android:textAlignment="center"
-                android:layout_centerHorizontal="true"
-                android:textSize="12sp" />
+                android:textSize="15sp" />
 
-            <RelativeLayout
+            <RatingBar
+                android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtGarageDescription"
-                android:layout_marginBottom="10dp">
+                android:numStars="5"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:rating="3.5"
+                android:stepSize=".5"
+                android:isIndicator="true"
+                android:focusable="false"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center"
+                android:clickable="false"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Ratings:"
-                    android:textAlignment="center"
-                    android:textSize="12sp"
-                    android:layout_weight="1"/>
-
-                <RatingBar
-                    android:id="@+id/ratingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    style="@style/Widget.AppCompat.RatingBar.Small"
-                    android:rating="3.5"
-                    android:stepSize=".5"
-                    android:isIndicator="true"
-                    android:focusable="false"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="5dp"
-                    android:clickable="false"/>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

@@ -8,10 +8,10 @@
         android:title="@string/home"/>
 
     <item
-        android:id="@+id/navHome1"
+        android:id="@+id/navEmergency"
         android:enabled="true"
-        android:icon="@drawable/round_home_24"
-        android:title="@string/home"/>
+        android:icon="@drawable/baseline_emergency_24"
+        android:title="Emergency"/>
 
     <item
         android:id="@+id/navChat"

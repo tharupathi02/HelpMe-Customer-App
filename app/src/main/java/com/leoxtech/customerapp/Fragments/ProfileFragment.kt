@@ -1,17 +1,18 @@
 package com.leoxtech.customerapp.Fragments
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.leoxtech.customerapp.Common.Common
 import com.leoxtech.customerapp.R
-import com.leoxtech.customerapp.databinding.FragmentHomeBinding
+import com.leoxtech.customerapp.Screens.SplashScreen
 import com.leoxtech.customerapp.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
@@ -40,6 +41,14 @@ class ProfileFragment : Fragment() {
 
         profileInfo()
 
+        clickListeners()
+
+    }
+
+    private fun clickListeners() {
+        binding.cardLogOut.setOnClickListener {
+            signOut()
+        }
     }
 
     private fun profileInfo() {
@@ -63,5 +72,27 @@ class ProfileFragment : Fragment() {
             dialog = it
             dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         }
+    }
+
+    private fun signOut() {
+        MaterialAlertDialogBuilder(context!!)
+            .setTitle("LogOut")
+            .setMessage("Are you absolutely sure you want to log out? Confirm your decision by clicking 'Yes' to log out or 'Cancel' to continue your current session.")
+            .setIcon(R.drawable.baseline_exit_to_app_24)
+            .setNegativeButton("Cancel") { dialog, which ->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Yes") { dialog, which ->
+                Common.currentUser = null
+                FirebaseAuth.getInstance().signOut()
+
+                val intent = Intent(context, SplashScreen::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                activity?.finish()
+
+                dialog.dismiss()
+            }
+            .show()
     }
 }
