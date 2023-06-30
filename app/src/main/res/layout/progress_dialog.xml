@@ -35,7 +35,19 @@
                 android:textColor="@color/main_color"
                 android:fontFamily="@font/poppins_bold"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/animationView"
+                android:layout_below="@id/animationView"/>
+
+            <TextView
+                android:id="@+id/txtProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Uploading 100%"
+                android:textAlignment="center"
+                android:textColor="@color/main_color"
+                android:fontFamily="@font/poppins"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/txtLoading"
+                android:visibility="gone"
                 android:layout_marginBottom="10dp"/>
 
         </RelativeLayout>
