@@ -8,19 +8,15 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.leoxtech.customerapp.Common.Common
 import com.leoxtech.customerapp.Model.UserModel
 import com.leoxtech.customerapp.R
@@ -177,8 +173,7 @@ class UpdateProfile : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun pickImage() {
-        val intent = Intent(MediaStore.ACTION_PICK_IMAGES)
-        startActivityForResult(intent, 101)
+        ImagePicker.with(this).crop().compress(1024).maxResultSize(1080, 1080).start()
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -186,16 +181,18 @@ class UpdateProfile : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
-            if (requestCode == 101) {
-                // catch any exception here
-                if (data!!.data == null) {
-                    Snackbar.make(binding.root, "Error: Image draw too large. Please select another image. and try again.", Snackbar.LENGTH_SHORT).setAction("Try Again") {
-                        pickImage()
-                    }.show()
-                } else {
-                    selectedImageUri = data!!.data
-                    binding.imgProfile.setImageURI(selectedImageUri)
-                }
+            if (data!!.data != null) {
+                selectedImageUri = data.data
+                binding.imgProfile.setImageURI(selectedImageUri)
+
+            } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                Snackbar.make(binding.root, "Error: Image draw too large. Please select another image. and try again.", Snackbar.LENGTH_SHORT).setAction("Try Again") {
+                    pickImage()
+                }.show()
+            } else {
+                Snackbar.make(binding.root, "Error: Image draw too large. Please select another image. and try again.", Snackbar.LENGTH_SHORT).setAction("Try Again") {
+                    pickImage()
+                }.show()
             }
         }
     }
