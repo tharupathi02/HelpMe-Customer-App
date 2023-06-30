@@ -137,13 +137,15 @@ class HomeFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private fun profileInfo() {
         dialog.show()
-        binding.txtCustomerName.text = Common.currentUser!!.name
-        if (mAuth.currentUser!!.photoUrl != null) {
-            Glide.with(this).load(mAuth.currentUser!!.photoUrl).into(binding.imgAvatar)
-            dialog.dismiss()
-        } else {
-            binding.imgAvatar.setImageResource(R.drawable.avatar)
-            dialog.dismiss()
+        if (Common.currentUser != null) {
+            binding.txtCustomerName.text = Common.currentUser!!.name
+            if (Common.currentUser!!.photoURL != null) {
+                Glide.with(this).load(Common.currentUser!!.photoURL).into(binding.imgAvatar)
+                dialog.dismiss()
+            } else {
+                binding.imgAvatar.setImageResource(R.drawable.avatar)
+                dialog.dismiss()
+            }
         }
 
         dialog.show()

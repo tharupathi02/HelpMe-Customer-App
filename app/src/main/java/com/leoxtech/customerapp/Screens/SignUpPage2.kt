@@ -76,6 +76,8 @@ class SignUpPage2 : AppCompatActivity() {
             val userModel = UserModel()
             userModel.uid = uID
             userModel.name = binding.txtFirstName.editText?.text.toString() + " " + binding.txtLastName.editText?.text.toString()
+            userModel.firstName = binding.txtFirstName.editText?.text.toString()
+            userModel.lastName = binding.txtLastName.editText?.text.toString()
             userModel.email = binding.txtEmail.editText?.text.toString()
             userModel.address = binding.txtAddress.editText?.text.toString()
             userModel.phone = binding.txtContactNumber.editText?.text.toString()

@@ -23,9 +23,9 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        clickListeners()
-
         mAuth = FirebaseAuth.getInstance()
+
+        clickListeners()
 
         dialogBox()
 
@@ -34,18 +34,21 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun profileInfo() {
         dialog.show()
-        binding.txtFullName.text = Common.currentUser!!.name
-        if (mAuth.currentUser!!.photoUrl != null) {
-            Glide.with(this).load(mAuth.currentUser!!.photoUrl).into(binding.imgProfile)
-            dialog.dismiss()
-        } else {
-            binding.imgProfile.setImageResource(R.drawable.avatar)
-            dialog.dismiss()
+        if (Common.currentUser != null) {
+            binding.txtFullName.text = Common.currentUser!!.name
+            if (Common.currentUser!!.photoURL != null) {
+                Glide.with(this).load(Common.currentUser!!.photoURL).into(binding.imgProfile)
+                dialog.dismiss()
+            } else {
+                binding.imgProfile.setImageResource(R.drawable.avatar)
+                dialog.dismiss()
+            }
+            binding.txtEmail.editText?.setText(Common.currentUser!!.email)
+            binding.txtContactNumber.editText?.setText(Common.currentUser!!.phone)
+            binding.txtAddress.editText?.setText(Common.currentUser!!.address)
+            binding.txtIDNumber.editText?.setText(Common.currentUser!!.idNumber)
         }
-        binding.txtEmail.editText?.setText(Common.currentUser!!.email)
-        binding.txtContactNumber.editText?.setText(Common.currentUser!!.phone)
-        binding.txtAddress.editText?.setText(Common.currentUser!!.address)
-        binding.txtIDNumber.editText?.setText(Common.currentUser!!.idNumber)
+        dialog.dismiss()
 
     }
 
