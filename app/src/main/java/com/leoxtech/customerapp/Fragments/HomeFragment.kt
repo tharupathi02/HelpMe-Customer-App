@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -18,6 +19,11 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -71,9 +77,71 @@ class HomeFragment : Fragment() {
 
         profileInfo()
 
+        clickListeners()
+
         popularArrayList = arrayListOf<GarageModel>()
         getTopGarageData()
 
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun clickListeners() {
+        binding.cardLocation.setOnClickListener {
+            showBottomSheetDialog()
+        }
+    }
+
+    private fun showBottomSheetDialog() {
+        dialog.show()
+        val locationResult = LocationServices.getFusedLocationProviderClient(requireContext()).lastLocation
+        val view: View = layoutInflater.inflate(R.layout.dashboard_current_location_view, null)
+        val bottomSheetDialog = BottomSheetDialog(context!!)
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
+
+        if (bottomSheetDialog.isShowing) {
+            val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+            mapFragment.getMapAsync { googleMap ->
+                locationResult.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val lastKnownLocation = task.result
+                        if (lastKnownLocation != null) {
+                            val latLng = LatLng(lastKnownLocation.latitude, lastKnownLocation.longitude)
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                            googleMap.isMyLocationEnabled = true
+                            googleMap.uiSettings.isMyLocationButtonEnabled = true
+                            googleMap.uiSettings.isZoomControlsEnabled = true
+                            googleMap.uiSettings.isZoomGesturesEnabled = true
+                            googleMap.uiSettings.isScrollGesturesEnabled = true
+                            googleMap.uiSettings.isTiltGesturesEnabled = true
+                            googleMap.uiSettings.isRotateGesturesEnabled = true
+                            googleMap.uiSettings.isCompassEnabled = true
+                            googleMap.uiSettings.isMapToolbarEnabled = true
+
+                            val geocoder = Geocoder(requireContext(), Locale.getDefault())
+                            try {
+                                val addresses = geocoder.getFromLocation(lastKnownLocation.latitude, lastKnownLocation.longitude, 1)
+                                val address = addresses!![0].getAddressLine(0)
+                                val city = addresses[0].locality
+                                val state = addresses[0].adminArea
+                                val country = addresses[0].countryName
+                                val postalCode = addresses[0].postalCode
+                                val knownName = addresses[0].featureName
+                                val txtCurrentLocationText = view.findViewById<TextView>(R.id.txtCurrentLocationText)
+                                txtCurrentLocationText.text = "Address: $address\nCity: $city\nState: $state\nCountry: $country\nPostal Code: $postalCode\nKnown Name: $knownName"
+                                dialog.dismiss()
+                            } catch (e: IOException) {
+                                Snackbar.make(requireView(), "Error: ${e.message}", Snackbar.LENGTH_LONG).show()
+                                dialog.dismiss()
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            bottomSheetDialog.dismiss()
+            dialog.dismiss()
+        }
     }
 
     @SuppressLint("MissingPermission")

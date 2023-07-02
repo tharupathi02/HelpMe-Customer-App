@@ -45,6 +45,11 @@
         <activity
             android:name=".Screens.MainActivity"
             android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyASzUqrqWRmey65IZncUERJn7ne08PRgY0"/>
+
     </application>
 
 </manifest>
