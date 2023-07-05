@@ -21,4 +21,11 @@
     <string name="profile">Profile</string>
     <string name="chat">Chat</string>
     <string name="example_gmail_com">example@gmail.com</string>
+    <string name="emergency_help">Emergency Help</string>
+    <string name="notice">Fill the form below to request emergency help. Garage will be notified and will contact you shortly after receiving your request accepted.</string>
+    <string name="issue_title_what_is_the_issue">Issue Title (What is the issue?) *</string>
+    <string name="describe_the_issue_in_detail">Describe the issue in detail *</string>
+    <string name="current_location_you_are_at">Current Location You Are At</string>
+    <string name="your_location">Your Location</string>
+    <string name="check_your_location_here">Check Your Location Here</string>
 </resources>

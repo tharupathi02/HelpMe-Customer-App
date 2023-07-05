@@ -136,6 +136,7 @@
                     android:layout_margin="10dp">
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardRequestHelp"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:cardCornerRadius="10dp"
