@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:id="@+id/dragHandle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txtGarageName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Garage Name"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:fontFamily="@font/poppins_semibold"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            style="@style/Widget.Material3.CardView.Filled">
+
+            <ImageView
+                android:id="@+id/imgGarage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/ic_launcher"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center_vertical"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/txtGarageDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Garage Description"
+                android:fontFamily="@font/poppins"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtGarageWorkingHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Garage Working Hours"
+                android:fontFamily="@font/poppins"
+                android:textColor="@color/black"
+                android:layout_below="@id/txtGarageDescription"/>
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="3.5"
+                android:stepSize=".5"
+                android:isIndicator="true"
+                android:focusable="false"
+                android:clickable="false"
+                android:layout_below="@id/txtGarageWorkingHours"
+                style="@style/Widget.AppCompat.RatingBar.Small"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:layout_marginBottom="20dp">
+
+        <Button
+            android:id="@+id/btnRequestHelp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/main_color"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:text="Request Help" />
+
+        <Button
+            android:id="@+id/btnViewGarage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="View Garage" />
+
+    </LinearLayout>
+
+</LinearLayout>

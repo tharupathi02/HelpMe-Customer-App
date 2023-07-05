@@ -1,11 +1,15 @@
 package com.leoxtech.customerapp.Screens
 
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
+import android.provider.Settings
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -17,6 +21,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -32,7 +37,7 @@ import com.leoxtech.holify.Common.CheckConnectionLiveData
 
 class SplashScreen : AppCompatActivity() {
 
-    private lateinit var cld : CheckConnectionLiveData
+    private lateinit var cld: CheckConnectionLiveData
     private lateinit var mAuth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var userRef: DatabaseReference
@@ -56,18 +61,47 @@ class SplashScreen : AppCompatActivity() {
 
         fusedLocation = LocationServices.getFusedLocationProviderClient(this)
 
-        requestLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                // If the permission is granted, display the toast.
-                isNotificationPermissionGranted = true
-                checkLocationPermission()
-            } else {
-                // If the permission is not granted, display the toast.
-                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+        requestLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                    // If the permission is granted, display the toast.
+                    isNotificationPermissionGranted = true
+                    checkLocationPermission()
+                } else {
+                    // If the permission is not granted, display the toast.
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
         notificationPermission()
 
+    }
+
+    private fun requestStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 100)
+            } else {
+                goToNext()
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            try {
+                val intent = Intent()
+                intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+                val uri = Uri.fromParts("package", applicationContext.packageName, null)
+                intent.data = uri
+            } catch (e: Exception) {
+                Snackbar.make(findViewById(android.R.id.content), "Please allow storage access permission", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Allow") {
+                        val intent = Intent()
+                        intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+                        val uri = Uri.fromParts("package", applicationContext.packageName, null)
+                        intent.data = uri
+                    }.show()
+                val intent = Intent()
+                intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+            }
+        }
     }
 
     private fun goToDashboard() {
@@ -84,12 +118,12 @@ class SplashScreen : AppCompatActivity() {
 
     private fun checkUserFromFirebase(user: FirebaseUser) {
         userRef = FirebaseDatabase.getInstance().getReference(Common.USER_REFERENCE)
-        userRef!!.child(user!!.uid).addListenerForSingleValueEvent(object: ValueEventListener {
+        userRef!!.child(user!!.uid).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     val userModel = snapshot.getValue(UserModel::class.java)
                     goToHomeActivity(userModel)
-                }else{
+                } else {
                     startActivity(Intent(this@SplashScreen, SignIn::class.java))
                     finish()
                 }
@@ -111,7 +145,11 @@ class SplashScreen : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun notificationPermission() {
         // Check if the notification permission is granted or not.
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             // If the notification permission is not granted, request for the same.
             requestLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
         } else {
@@ -127,7 +165,7 @@ class SplashScreen : AppCompatActivity() {
             if (it) {
                 goToDashboard()
             } else {
-                Toast.makeText(this,"Not Connected",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -137,9 +175,9 @@ class SplashScreen : AppCompatActivity() {
     private fun checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION), LOCATION_REQUEST_CODE)
-        } else{
+        } else {
             isPermissionGranted = true
-            goToNext()
+            requestStoragePermission()
         }
     }
 
@@ -150,9 +188,10 @@ class SplashScreen : AppCompatActivity() {
             LOCATION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     isPermissionGranted = true
-                    goToNext()
+                    requestStoragePermission()
                 } else {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                    requestStoragePermission()
                 }
             }
         }

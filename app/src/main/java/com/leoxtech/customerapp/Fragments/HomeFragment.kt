@@ -2,6 +2,7 @@ package com.leoxtech.customerapp.Fragments
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
@@ -35,6 +36,8 @@ import com.leoxtech.customerapp.Adapter.PopularGarageAdapter
 import com.leoxtech.customerapp.Common.Common
 import com.leoxtech.customerapp.Model.GarageModel
 import com.leoxtech.customerapp.R
+import com.leoxtech.customerapp.Screens.RequestHelp
+import com.leoxtech.customerapp.Screens.SelectGarage
 import com.leoxtech.customerapp.databinding.ActivityMainBinding
 import com.leoxtech.customerapp.databinding.FragmentHomeBinding
 import java.io.IOException
@@ -89,13 +92,18 @@ class HomeFragment : Fragment() {
         binding.cardLocation.setOnClickListener {
             showBottomSheetDialog()
         }
+
+        binding.cardRequestHelp.setOnClickListener {
+            startActivity(Intent(requireContext(), SelectGarage::class.java))
+        }
     }
 
+    @SuppressLint("MissingPermission")
     private fun showBottomSheetDialog() {
         dialog.show()
         val locationResult = LocationServices.getFusedLocationProviderClient(requireContext()).lastLocation
         val view: View = layoutInflater.inflate(R.layout.dashboard_current_location_view, null)
-        val bottomSheetDialog = BottomSheetDialog(context!!)
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.show()
 
@@ -226,9 +234,20 @@ class HomeFragment : Fragment() {
                 latitude = task.result!!.latitude
                 longitude = task.result!!.longitude
 
-                val singleAddress = getAddressFromLatLng(task.result!!.latitude, task.result!!.longitude)
-
-                binding.txtLocation.text = singleAddress.toString()
+                val geoCoder = Geocoder(requireContext(), Locale.getDefault())
+                val  result : String?=null
+                try {
+                    val addressList = geoCoder.getFromLocation(latitude, longitude, 1)
+                    if (addressList != null && addressList.size > 0) {
+                        val address = addressList[0]
+                        val sb = StringBuilder(address.getAddressLine(0))
+                        binding.txtLocation.text = sb.toString()
+                    } else {
+                        binding.txtLocation.text = "Address not found"
+                    }
+                } catch (e: IOException) {
+                    binding.txtLocation.text = e.message!!
+                }
             }
         dialog.dismiss()
     }
