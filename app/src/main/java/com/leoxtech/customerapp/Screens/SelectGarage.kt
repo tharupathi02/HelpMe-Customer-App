@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -57,6 +59,10 @@ class SelectGarage : AppCompatActivity() {
         setContentView(binding.root)
 
         mAuth = FirebaseAuth.getInstance()
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+        mapFragment.getMapAsync { googleMap ->
+            mMap = googleMap
+        }
 
         dialogBox()
 
@@ -76,6 +82,9 @@ class SelectGarage : AppCompatActivity() {
         dbRef = Firebase.database.reference.child(Common.GARAGE_REF)
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                locationsArrayList.clear()
+                locationsUIdArrayList.clear()
+                mMap.clear()
                 if (snapshot.exists()) {
                     for (i in snapshot.children) {
                         val lat = i.child("latitude").value.toString().toDouble()
@@ -101,56 +110,54 @@ class SelectGarage : AppCompatActivity() {
     private fun showLocations() {
         dialog.show()
         val locationResult = LocationServices.getFusedLocationProviderClient(this).lastLocation
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
-        mapFragment.getMapAsync { googleMap ->
-            locationResult.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val lastKnownLocation = task.result
-                    if (lastKnownLocation != null) {
-                        val latLng = LatLng(lastKnownLocation.latitude, lastKnownLocation.longitude)
-                        googleMap.isMyLocationEnabled = true
-                        googleMap.uiSettings.isMyLocationButtonEnabled = true
-                        googleMap.uiSettings.isZoomControlsEnabled = true
-                        googleMap.uiSettings.isZoomGesturesEnabled = true
-                        googleMap.uiSettings.isScrollGesturesEnabled = true
-                        googleMap.uiSettings.isTiltGesturesEnabled = true
-                        googleMap.uiSettings.isRotateGesturesEnabled = true
-                        googleMap.uiSettings.isCompassEnabled = true
-                        googleMap.uiSettings.isMapToolbarEnabled = true
-                        googleMap.uiSettings.isRotateGesturesEnabled = true
-                        googleMap.uiSettings.isTiltGesturesEnabled = true
-                        googleMap.isIndoorEnabled = true
-                        googleMap.projection.visibleRegion.latLngBounds
-                        googleMap.isBuildingsEnabled = true
-                        googleMap.isTrafficEnabled = true
-                        googleMap.isMyLocationEnabled = true
+        locationResult.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val lastKnownLocation = task.result
+                if (lastKnownLocation != null) {
+                    val latLng = LatLng(lastKnownLocation.latitude, lastKnownLocation.longitude)
+                    mMap.isMyLocationEnabled = true
+                    mMap.uiSettings.isMyLocationButtonEnabled = true
+                    mMap.uiSettings.isZoomControlsEnabled = true
+                    mMap.uiSettings.isZoomGesturesEnabled = true
+                    mMap.uiSettings.isScrollGesturesEnabled = true
+                    mMap.uiSettings.isTiltGesturesEnabled = true
+                    mMap.uiSettings.isRotateGesturesEnabled = true
+                    mMap.uiSettings.isCompassEnabled = true
+                    mMap.uiSettings.isMapToolbarEnabled = true
+                    mMap.uiSettings.isRotateGesturesEnabled = true
+                    mMap.uiSettings.isTiltGesturesEnabled = true
+                    mMap.isIndoorEnabled = true
+                    mMap.projection.visibleRegion.latLngBounds
+                    mMap.isBuildingsEnabled = true
+                    mMap.isTrafficEnabled = true
+                    mMap.isMyLocationEnabled = true
 
-                        for (i in locationsArrayList.indices) {
-                            googleMap.addMarker(MarkerOptions().position(locationsArrayList[i]).icon(bitmapDescriptor(this, R.drawable.location_3d)))
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLng(locationsArrayList[i]))
-                        }
 
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13f))
-
-                        googleMap.setOnMarkerClickListener {
-                            getCompanyDetails(locationsUIdArrayList[locationsArrayList.indexOf(it.position)])
-                            true
-                        }
-
-                        dialog.dismiss()
-
+                    for (i in locationsArrayList.indices) {
+                        mMap.addMarker(MarkerOptions().position(locationsArrayList[i]).icon(bitmapDescriptor(this, R.drawable.location_3d)))
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(locationsArrayList[i]))
                     }
+
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13f))
+
+                    mMap.setOnMarkerClickListener {
+                        getCompanyDetails(locationsUIdArrayList[locationsArrayList.indexOf(it.position)])
+                        true
+                    }
+
+                    dialog.dismiss()
+
                 }
             }
-            dialog.dismiss()
         }
+        dialog.dismiss()
         dialog.dismiss()
     }
 
     private fun bitmapDescriptor(selectGarage: SelectGarage, vectorResId: Int): BitmapDescriptor? {
         val vectorDrawable = ContextCompat.getDrawable(selectGarage, vectorResId)
         vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
-        val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, android.graphics.Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)

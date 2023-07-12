@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.creativechintak.multiimagepicker.builder.MultiImagePicker
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -178,7 +179,11 @@ class RequestHelp : AppCompatActivity() {
 
     private fun clickListeners() {
         binding.btnAttachImage.setOnClickListener {
-            pickImagesFromGallery()
+            ImagePicker.with(this)
+                .crop()
+                .compress(1024)
+                .maxResultSize(1080, 1080)
+                .start()
         }
 
         binding.cardBack.setOnClickListener {
@@ -238,6 +243,7 @@ class RequestHelp : AppCompatActivity() {
     private fun saveRequestToDb(firebaseImageList: ArrayList<String>) {
         dialog.show()
         val requestHelpModel = RequestHelpModel()
+        val keyRef = garageUserId + System.currentTimeMillis()
         requestHelpModel.garageUid = garageUserId
         requestHelpModel.customerUid = Common.currentUser!!.uid
         requestHelpModel.customerName = Common.currentUser!!.firstName + " " + Common.currentUser!!.lastName
@@ -250,9 +256,10 @@ class RequestHelp : AppCompatActivity() {
         requestHelpModel.customerIssueDescription = binding.txtIssueDescription.editText!!.text.toString()
         requestHelpModel.customerVehicle = binding.txtVehicleModel.editText!!.text.toString()
         requestHelpModel.timeStamp = System.currentTimeMillis().toString()
+        requestHelpModel.key = keyRef
 
         dbRef = FirebaseDatabase.getInstance().getReference(Common.REQUEST_REF)
-        dbRef.child(garageUserId + System.currentTimeMillis()).setValue(requestHelpModel).addOnCompleteListener(this) { task ->
+        dbRef.child(keyRef).setValue(requestHelpModel).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 Snackbar.make(binding.root, "Request sent Successfully. Please wait for garage to accept your request.", Snackbar.LENGTH_SHORT).show()
                 startActivity(Intent(this, MainActivity::class.java))
@@ -275,21 +282,15 @@ class RequestHelp : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
-            if (data!!.clipData != null) {
-                val count = data.clipData!!.itemCount
-                var currentItem = 0
-                while (currentItem < count) {
-                    imageUri = data.clipData!!.getItemAt(currentItem).uri
-                    imageList.add(imageUri!!)
-                    currentItem += 1
-                }
+        if (resultCode == RESULT_OK) {
+            if (data!!.data != null) {
+                imageList.add(data!!.data!!)
+
                 binding.recyclerViewImages.adapter = ImageAdapter(this, imageList)
                 binding.recyclerViewImages.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
                 binding.recyclerViewImages.setHasFixedSize(true)
-
             } else {
-                Snackbar.make(binding.root, "You have selected at least 2 image", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, "No image selected", Snackbar.LENGTH_SHORT).show()
             }
         }
 
