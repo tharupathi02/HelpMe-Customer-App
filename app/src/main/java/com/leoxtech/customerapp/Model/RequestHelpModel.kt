@@ -3,6 +3,7 @@ package com.leoxtech.customerapp.Model
 import android.net.Uri
 
 class RequestHelpModel {
+    var key: String? = null
     var customerUid: String? = null
     var customerName: String? = null
     var customerPhone: String? = null

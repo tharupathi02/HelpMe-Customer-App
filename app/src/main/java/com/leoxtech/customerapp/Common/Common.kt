@@ -7,7 +7,7 @@ import com.leoxtech.customerapp.Screens.SelectGarage
 
 object Common {
 
-    const val REQUEST_REF: String = "Requests"
+    const val REQUEST_REF = "Requests"
     const val USER_REFERENCE = "Users"
     const val GARAGE_REF = "Garage Users"
     const val STORAGE_REF = "userProfileImages/"

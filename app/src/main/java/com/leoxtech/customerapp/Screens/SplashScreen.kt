@@ -69,7 +69,7 @@ class SplashScreen : AppCompatActivity() {
                     checkLocationPermission()
                 } else {
                     // If the permission is not granted, display the toast.
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Permission Denied !", Toast.LENGTH_SHORT).show()
                 }
             }
         notificationPermission()
@@ -190,7 +190,7 @@ class SplashScreen : AppCompatActivity() {
                     isPermissionGranted = true
                     requestStoragePermission()
                 } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Please provide the permission", Toast.LENGTH_SHORT).show()
                     requestStoragePermission()
                 }
             }

@@ -199,7 +199,7 @@ class HomeFragment : Fragment() {
                     }
 
                 }else{
-                    Snackbar.make(binding.root, "No Data Found", Snackbar.LENGTH_SHORT).show()
+                    binding.txtNoGaragesFound.visibility = View.VISIBLE
                     dialog.dismiss()
                 }
             }
