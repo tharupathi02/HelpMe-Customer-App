@@ -57,4 +57,5 @@ dependencies {
     implementation 'com.github.dhaval2404:imagepicker:2.1'
     implementation 'com.github.chintan369:MultiImagePicker:1.0.11'
     implementation 'io.github.sangcomz:fishbun:1.1.1'
+    implementation "com.airbnb.android:lottie:3.4.0"
 }

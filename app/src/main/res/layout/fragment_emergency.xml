@@ -3,13 +3,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.EmergencyFragment">
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/layoutHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_bottom"
+        android:backgroundTint="@color/main_color">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Emergency"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:fontFamily="@font/poppins_semibold"
+                android:layout_centerInParent="true"
+                android:layout_margin="20dp"
+                android:textAlignment="center"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerEmergencyRequest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_below="@+id/layoutHeader"
+        tools:listitem="@layout/urgent_request_item"/>
+
+    <TextView
+        android:id="@+id/txtNoRequestFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Emergency Request Found !"
+        android:textColor="@color/black"
+        android:textSize="15sp"
         android:fontFamily="@font/poppins"
-        android:text="No Emergency Alert Yet!"/>
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabNewRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        app:icon="@drawable/round_add_24"
+        app:iconTint="@color/white"
+        android:text="New Request"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/main_color"
+        android:visibility="gone"/>
+
+
 
 </RelativeLayout>
