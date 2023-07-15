@@ -17,6 +17,7 @@ class RequestHelpModel {
     var garageUid: String? = null
     var timeStamp: String? = null
 
-    var garageRatingValue:Float = 0.toFloat()
-    var garageRatingCount:Long = 0.toLong()
+    var garageReviewValue: Float? = 0.0.toFloat()
+    var garageReviewComment: String? = null
+
 }
