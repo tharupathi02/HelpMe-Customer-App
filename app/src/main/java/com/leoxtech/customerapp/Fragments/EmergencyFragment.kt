@@ -68,10 +68,11 @@ class EmergencyFragment : Fragment() {
 
                     requestHelpArrayList.reverse()
 
-                    binding.recyclerEmergencyRequest.adapter = UrgentRequestAdapter(context!!, requestHelpArrayList)
-                    binding.recyclerEmergencyRequest.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
                     if (requestHelpArrayList.size > 0) {
+
+                        binding.recyclerEmergencyRequest.adapter = UrgentRequestAdapter(context!!, requestHelpArrayList)
+                        binding.recyclerEmergencyRequest.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
                         binding.txtNoRequestFound.visibility = View.GONE
                         dialog.dismiss()
                     } else {
@@ -80,6 +81,7 @@ class EmergencyFragment : Fragment() {
                     }
 
                 } else {
+                    binding.txtNoRequestFound.visibility = View.VISIBLE
                     dialog.dismiss()
                 }
             }

@@ -99,9 +99,22 @@
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
                         android:backgroundTint="@color/red"
                         android:fontFamily="@font/poppins_medium"
                         android:text="Cancel Request"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btnReview"
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:backgroundTint="@color/main_color"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Review Worker"
+                        android:visibility="gone"
                         android:layout_weight="1"/>
 
                 </LinearLayout>

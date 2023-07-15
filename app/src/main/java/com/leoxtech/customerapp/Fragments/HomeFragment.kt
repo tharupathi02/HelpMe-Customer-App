@@ -188,12 +188,12 @@ class HomeFragment : Fragment() {
                         val popular = popularSnapshot.getValue(GarageModel::class.java)
                         popularArrayList.add(popular!!)
                     }
-                    binding.recyclerviewTopGarages.adapter = PopularGarageAdapter(context!!, popularArrayList!!)
-                    binding.recyclerviewTopGarages.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    dialog.dismiss()
 
                     if (popularArrayList.size > 0) {
+                        binding.recyclerviewTopGarages.adapter = PopularGarageAdapter(context!!, popularArrayList!!)
+                        binding.recyclerviewTopGarages.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                         binding.txtNoGaragesFound.visibility = View.GONE
+                        dialog.dismiss()
                     } else {
                         binding.txtNoGaragesFound.visibility = View.VISIBLE
                     }
@@ -210,7 +210,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission", "UseRequireInsteadOfGet")
     private fun profileInfo() {
         dialog.show()
         if (Common.currentUser != null) {
@@ -234,7 +234,7 @@ class HomeFragment : Fragment() {
                 latitude = task.result!!.latitude
                 longitude = task.result!!.longitude
 
-                val geoCoder = Geocoder(requireContext(), Locale.getDefault())
+                val geoCoder = Geocoder(context!!, Locale.getDefault())
                 val  result : String?=null
                 try {
                     val addressList = geoCoder.getFromLocation(latitude, longitude, 1)

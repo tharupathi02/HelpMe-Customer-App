@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        style="@style/Widget.AppCompat.RatingBar"
+        android:rating="1"
+        android:stepSize=".5"
+        android:focusable="true"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:progressTint="@color/yellow"
+        android:clickable="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/emo_1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/emo_5"
+            android:alpha="0.5"
+            android:layout_weight="1"/>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/emo_2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/emo_4"
+            android:alpha="0.5"
+            android:layout_weight="1"/>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/emo_3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/emo_3"
+            android:alpha="0.5"
+            android:layout_weight="1"/>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/emo_4"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/emo_2"
+            android:alpha="0.5"
+            android:layout_weight="1"/>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/emo_5"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/emo_1"
+            android:alpha="0.5"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:hint="@string/write_a_comment">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:lines="6"
+            android:gravity="start"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>

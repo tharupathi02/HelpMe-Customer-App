@@ -28,4 +28,5 @@
     <string name="current_location_you_are_at">Current Location You Are At</string>
     <string name="your_location">Your Location</string>
     <string name="check_your_location_here">Check Your Location Here</string>
+    <string name="write_a_comment">Write a Comment</string>
 </resources>

@@ -1,37 +1,23 @@
 package com.leoxtech.customerapp.Screens
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.os.Looper
-import android.provider.Settings
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.creativechintak.multiimagepicker.builder.MultiImagePicker
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -44,13 +30,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.leoxtech.customerapp.Adapter.ImageAdapter
 import com.leoxtech.customerapp.Common.Common
-import com.leoxtech.customerapp.Model.GarageModel
 import com.leoxtech.customerapp.Model.RequestHelpModel
 import com.leoxtech.customerapp.R
 import com.leoxtech.customerapp.databinding.ActivityRequestHelpBinding
 import java.io.IOException
 import java.util.Locale
-import java.util.UUID
 
 class RequestHelp : AppCompatActivity() {
 
@@ -261,9 +245,12 @@ class RequestHelp : AppCompatActivity() {
         dbRef = FirebaseDatabase.getInstance().getReference(Common.REQUEST_REF)
         dbRef.child(keyRef).setValue(requestHelpModel).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                Snackbar.make(binding.root, "Request sent Successfully. Please wait for garage to accept your request.", Snackbar.LENGTH_SHORT).show()
-                finish()
                 dialog.dismiss()
+                startActivity(Intent(this, ActivityDoneScreen::class.java)
+                    .putExtra("titleText", "Request sent Successfully.")
+                    .putExtra("subTitleText", "Please wait for garage to accept your request or they will contact you soon for further details about your issue and location details.")
+                    .putExtra("buttonText", "Go back to Home")
+                    .putExtra("activity", "MainActivity"), null)
             } else {
                 Snackbar.make(binding.root, "Failed to send request. Please try again later.", Snackbar.LENGTH_SHORT).show()
                 dialog.dismiss()
