@@ -66,10 +66,10 @@ class EmergencyFragment : Fragment() {
                         }
                     }
 
-                    //Snackbar.make(requireView(), "You requested for ${requestHelpArrayList.size} urgent help", Snackbar.LENGTH_SHORT).show()
+                    requestHelpArrayList.reverse()
 
                     binding.recyclerEmergencyRequest.adapter = UrgentRequestAdapter(context!!, requestHelpArrayList)
-                    binding.recyclerEmergencyRequest.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    binding.recyclerEmergencyRequest.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
                     if (requestHelpArrayList.size > 0) {
                         binding.txtNoRequestFound.visibility = View.GONE

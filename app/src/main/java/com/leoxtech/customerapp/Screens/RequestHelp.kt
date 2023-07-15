@@ -262,7 +262,6 @@ class RequestHelp : AppCompatActivity() {
         dbRef.child(keyRef).setValue(requestHelpModel).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 Snackbar.make(binding.root, "Request sent Successfully. Please wait for garage to accept your request.", Snackbar.LENGTH_SHORT).show()
-                startActivity(Intent(this, MainActivity::class.java))
                 finish()
                 dialog.dismiss()
             } else {
