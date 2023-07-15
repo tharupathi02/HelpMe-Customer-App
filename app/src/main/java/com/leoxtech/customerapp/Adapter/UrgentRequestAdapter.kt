@@ -35,8 +35,12 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
         if (urgentRequestList.get(position).status.equals("Rejected")) {
             holder.btnRequestAgain!!.visibility = View.VISIBLE
             holder.btnCancel!!.visibility = View.VISIBLE
+        } else if (urgentRequestList.get(position).status.equals("Accepted")) {
+            holder.btnRequestAgain!!.visibility = View.GONE
+            holder.btnCancel!!.visibility = View.GONE
         } else {
-            holder.btnRequestAgain!!.visibility = View.INVISIBLE
+            holder.btnRequestAgain!!.visibility = View.GONE
+            holder.btnCancel!!.visibility = View.VISIBLE
         }
 
         holder.btnRequestAgain!!.setOnClickListener {
