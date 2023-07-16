@@ -25,10 +25,12 @@ class ActivityDoneScreen : AppCompatActivity() {
         binding.btnNext.text = buttonText
 
         binding.btnNext.setOnClickListener {
-            // change activity depending on the activity name passed from the previous activity (intent)
             when (activity) {
                 "HomeActivity" -> {
                     startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
+                }
+                "GoBack" -> {
                     finish()
                 }
             }

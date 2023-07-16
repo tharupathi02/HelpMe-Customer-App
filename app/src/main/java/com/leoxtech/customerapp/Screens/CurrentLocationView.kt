@@ -41,8 +41,6 @@ class CurrentLocationView : AppCompatActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var currentLocation: Location
 
-    private lateinit var popularArrayList: ArrayList<GarageModel>
-
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
 
@@ -93,10 +91,10 @@ class CurrentLocationView : AppCompatActivity() {
                             val address = addresses!![0].getAddressLine(0)
                             val city = addresses[0].locality
                             val state = addresses[0].adminArea
-                            val country = addresses[0].countryName
-                            val postalCode = addresses[0].postalCode
-                            val knownName = addresses[0].featureName
-                            binding.txtCurrentLocationText.text = "Address: $address\nCity: $city\nState: $state\nCountry: $country\nPostal Code: $postalCode\nKnown Name: $knownName"
+
+                            binding.txtCurrentLocationAddress.text = "Address:\n$address"
+                            binding.txtCurrentLocationCity.text = "City:\n$city"
+                            binding.txtCurrentLocationState.text = "State:\n$state"
                             dialog.dismiss()
                         } catch (e: IOException) {
                             Snackbar.make(binding.root, "Error: ${e.message}", Snackbar.LENGTH_LONG).show()

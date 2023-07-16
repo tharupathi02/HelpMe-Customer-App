@@ -1,6 +1,7 @@
 package com.leoxtech.customerapp.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
@@ -18,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.leoxtech.customerapp.Common.Common
 import com.leoxtech.customerapp.Model.RequestHelpModel
 import com.leoxtech.customerapp.R
+import com.leoxtech.customerapp.Screens.ActivityDoneScreen
 import pl.droidsonroids.gif.GifImageView
 
 class UrgentRequestAdapter (internal var context: Context, private var urgentRequestList: List<RequestHelpModel>) : RecyclerView.Adapter<UrgentRequestAdapter.MyViewHolder>() {
@@ -140,8 +143,12 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
                                 FirebaseDatabase.getInstance().getReference(Common.REQUEST_REF).child(urgentRequestList.get(position).key!!).child("garageReviewValue").setValue(ratingGarage)
                                     .addOnCompleteListener {
                                         if (it.isSuccessful) {
-                                            Toast.makeText(context, "Review added", Toast.LENGTH_SHORT).show()
                                             dialog.dismiss()
+                                            startActivity(context, Intent(context, ActivityDoneScreen::class.java)
+                                                .putExtra("titleText", "Review Added Successfully !")
+                                                .putExtra("subTitleText", "Thank you for your review. Your review is very important to us to improve our service.\n\nWe hope to see you again ! Have a nice day ! ")
+                                                .putExtra("buttonText", "Go Back")
+                                                .putExtra("activity", "GoBack"), null)
                                         }
                                     }
                             } else {
