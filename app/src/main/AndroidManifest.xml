@@ -49,7 +49,7 @@
             android:exported="false" />
         <activity
             android:name=".Screens.RequestHelp"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".Screens.UpdateProfile"
             android:exported="false" />

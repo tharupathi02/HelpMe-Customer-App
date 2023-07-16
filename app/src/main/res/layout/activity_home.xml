@@ -6,101 +6,126 @@
     android:layout_height="match_parent"
     tools:context=".Screens.HomeActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layoutTopHeader"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/round_bottom"
-        android:backgroundTint="@color/main_color">
+        android:backgroundTint="@color/main_color"
+        android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/layoutTopHeaderContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_centerVertical="true">
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp">
 
-            <TextView
-                android:id="@+id/welcome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/welcome"
-                android:textColor="@color/white"
-                android:fontFamily="@font/poppins"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:id="@+id/txtCustomerName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/welcome"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:translationY="-8dp"/>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="8dp"
-                android:layout_below="@id/txtCustomerName"
-                android:backgroundTint="@color/white"
-                android:translationY="-10dp"
-                style="@style/Widget.Material3.CardView.Filled">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="5dp">
-
-                    <ImageView
-                        android:id="@+id/imgLocationPin"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/location_pin"
-                        android:layout_marginStart="5dp"
-                        android:layout_centerVertical="true"/>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/txtLocation"
+                        android:id="@+id/welcome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
+                        android:text="@string/welcome"
+                        android:textColor="@color/white"
                         android:fontFamily="@font/poppins"
-                        android:textSize="12sp"
-                        android:layout_toEndOf="@+id/imgLocationPin"
-                        android:layout_marginStart="5dp"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/txtCustomerName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/welcome"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
                         android:layout_marginEnd="5dp"
-                        android:layout_centerVertical="true"/>
+                        android:translationY="-8dp"/>
 
                 </RelativeLayout>
 
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardAvatar"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="5dp"
-                app:cardCornerRadius="100dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:backgroundTint="@color/white"
-                style="@style/Widget.Material3.CardView.Filled">
-
-                <ImageView
-                    android:id="@+id/imgAvatar"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/avatar"
-                    android:scaleType="centerCrop"/>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4">
 
-            </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardAvatar"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="5dp"
+                        app:cardCornerRadius="100dp"
+                        android:layout_centerInParent="true"
+                        android:backgroundTint="@color/white"
+                        style="@style/Widget.Material3.CardView.Filled">
+
+                        <ImageView
+                            android:id="@+id/imgAvatar"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/avatar"
+                            android:scaleType="centerCrop"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </RelativeLayout>
 
-    </RelativeLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardLocation"
+            style="@style/Widget.Material3.CardView.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/imgLocationPin"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/location" />
+
+                <TextView
+                    android:id="@+id/txtLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@+id/imgLocationPin"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"

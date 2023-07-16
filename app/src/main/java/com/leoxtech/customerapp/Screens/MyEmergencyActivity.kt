@@ -35,10 +35,15 @@ class MyEmergencyActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
+
         dialogBox()
 
         requestHelpArrayList = arrayListOf<RequestHelpModel>()
         getUrgentRequests()
+
+        binding.cardBack.setOnClickListener {
+            finish()
+        }
 
     }
 

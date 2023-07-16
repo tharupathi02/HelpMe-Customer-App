@@ -149,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/describe_the_issue_in_detail"
                     app:counterEnabled="true"
-                    app:counterMaxLength="100"
+                    app:counterMaxLength="200"
                     android:layout_marginTop="10dp">
 
                     <com.google.android.material.textfield.TextInputEditText

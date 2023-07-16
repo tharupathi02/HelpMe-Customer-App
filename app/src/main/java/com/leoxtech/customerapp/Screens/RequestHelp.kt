@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Looper
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -163,11 +164,7 @@ class RequestHelp : AppCompatActivity() {
 
     private fun clickListeners() {
         binding.btnAttachImage.setOnClickListener {
-            ImagePicker.with(this)
-                .crop()
-                .compress(1024)
-                .maxResultSize(1080, 1080)
-                .start()
+            ImagePicker.with(this@RequestHelp).crop().compress(1024).maxResultSize(1080, 1080).start()
         }
 
         binding.cardBack.setOnClickListener {
@@ -175,7 +172,7 @@ class RequestHelp : AppCompatActivity() {
         }
 
         binding.btnCheckLocation.setOnClickListener {
-
+            startActivity(Intent(this, CurrentLocationView::class.java))
         }
 
         binding.btnRequestHelp.setOnClickListener {
@@ -265,19 +262,20 @@ class RequestHelp : AppCompatActivity() {
         startActivityForResult(intent, PICK_IMAGE)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, imageData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, imageData)
         if (resultCode == RESULT_OK) {
-            if (data!!.data != null) {
-                imageList.add(data!!.data!!)
-
+            if (imageData!!.data != null) {
+                imageList.add(imageData.data!!)
                 binding.recyclerViewImages.adapter = ImageAdapter(this, imageList)
-                binding.recyclerViewImages.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+                binding.recyclerViewImages.layoutManager = LinearLayoutManager(this@RequestHelp, LinearLayoutManager.HORIZONTAL, false)
                 binding.recyclerViewImages.setHasFixedSize(true)
             } else {
                 Snackbar.make(binding.root, "No image selected", Snackbar.LENGTH_SHORT).show()
             }
+        } else {
+            Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show()
         }
 
     }
