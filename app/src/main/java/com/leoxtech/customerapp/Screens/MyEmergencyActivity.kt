@@ -1,12 +1,9 @@
-package com.leoxtech.customerapp.Fragments
+package com.leoxtech.customerapp.Screens
 
 import android.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -19,12 +16,11 @@ import com.leoxtech.customerapp.Adapter.UrgentRequestAdapter
 import com.leoxtech.customerapp.Common.Common
 import com.leoxtech.customerapp.Model.RequestHelpModel
 import com.leoxtech.customerapp.R
-import com.leoxtech.customerapp.databinding.FragmentEmergencyBinding
-import com.leoxtech.customerapp.databinding.FragmentHomeBinding
+import com.leoxtech.customerapp.databinding.ActivityMyEmergencyBinding
 
-class EmergencyFragment : Fragment() {
+class MyEmergencyActivity : AppCompatActivity() {
 
-    private lateinit var binding: FragmentEmergencyBinding
+    private lateinit var binding: ActivityMyEmergencyBinding
 
     private lateinit var dbRef: DatabaseReference
     private lateinit var mAuth: FirebaseAuth
@@ -32,16 +28,10 @@ class EmergencyFragment : Fragment() {
 
     private lateinit var requestHelpArrayList: ArrayList<RequestHelpModel>
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentEmergencyBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMyEmergencyBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -69,17 +59,14 @@ class EmergencyFragment : Fragment() {
                     requestHelpArrayList.reverse()
 
                     if (requestHelpArrayList.size > 0) {
-
-                        binding.recyclerEmergencyRequest.adapter = UrgentRequestAdapter(context!!, requestHelpArrayList)
-                        binding.recyclerEmergencyRequest.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
+                        binding.recyclerEmergencyRequest.adapter = UrgentRequestAdapter(this@MyEmergencyActivity, requestHelpArrayList)
+                        binding.recyclerEmergencyRequest.layoutManager = LinearLayoutManager(this@MyEmergencyActivity, LinearLayoutManager.VERTICAL, false)
                         binding.txtNoRequestFound.visibility = View.GONE
                         dialog.dismiss()
                     } else {
                         binding.txtNoRequestFound.visibility = View.VISIBLE
                         dialog.dismiss()
                     }
-
                 } else {
                     binding.txtNoRequestFound.visibility = View.VISIBLE
                     dialog.dismiss()
@@ -87,14 +74,14 @@ class EmergencyFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Snackbar.make(requireView(), error.message, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, error.message, Snackbar.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
         })
     }
 
     private fun dialogBox() {
-        AlertDialog.Builder(context).apply {
+        AlertDialog.Builder(this).apply {
             setCancelable(false)
             setView(R.layout.progress_dialog)
         }.create().also {
@@ -102,4 +89,5 @@ class EmergencyFragment : Fragment() {
             dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         }
     }
+
 }

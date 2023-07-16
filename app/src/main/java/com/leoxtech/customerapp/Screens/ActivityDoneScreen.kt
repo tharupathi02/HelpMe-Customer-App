@@ -27,8 +27,9 @@ class ActivityDoneScreen : AppCompatActivity() {
         binding.btnNext.setOnClickListener {
             // change activity depending on the activity name passed from the previous activity (intent)
             when (activity) {
-                "MainActivity" -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                "HomeActivity" -> {
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
                 }
             }
         }

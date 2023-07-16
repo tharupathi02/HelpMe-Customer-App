@@ -138,7 +138,7 @@ class SplashScreen : AppCompatActivity() {
 
     private fun goToHomeActivity(userModel: UserModel?) {
         Common.currentUser = userModel!!
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, HomeActivity::class.java))
         finish()
     }
 
