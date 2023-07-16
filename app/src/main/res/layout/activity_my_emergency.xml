@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.EmergencyFragment">
+    tools:context=".Screens.MyEmergencyActivity">
 
     <RelativeLayout
         android:id="@+id/layoutHeader"
@@ -20,13 +20,16 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Emergency"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:fontFamily="@font/poppins_semibold"
                 android:layout_centerInParent="true"
-                android:layout_margin="20dp"
-                android:textAlignment="center"/>
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="My Requests"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
 
         </RelativeLayout>
 
@@ -63,7 +66,5 @@
         android:textColor="@color/white"
         android:backgroundTint="@color/main_color"
         android:visibility="gone"/>
-
-
 
 </RelativeLayout>

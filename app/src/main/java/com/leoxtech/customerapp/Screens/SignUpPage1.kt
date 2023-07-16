@@ -134,7 +134,7 @@ class SignUpPage1 : AppCompatActivity() {
     private fun goToHomeActivity(userModel: UserModel?) {
         Common.currentUser = userModel!!
         dialog.dismiss()
-        val dashboardIntent = Intent(this, MainActivity::class.java)
+        val dashboardIntent = Intent(this, HomeActivity::class.java)
         startActivity(dashboardIntent)
         finish()
     }

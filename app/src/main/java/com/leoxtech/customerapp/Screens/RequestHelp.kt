@@ -250,7 +250,7 @@ class RequestHelp : AppCompatActivity() {
                     .putExtra("titleText", "Request sent Successfully.")
                     .putExtra("subTitleText", "Please wait for garage to accept your request or they will contact you soon for further details about your issue and location details.")
                     .putExtra("buttonText", "Go back to Home")
-                    .putExtra("activity", "MainActivity"), null)
+                    .putExtra("activity", "HomeActivity"), null)
             } else {
                 Snackbar.make(binding.root, "Failed to send request. Please try again later.", Snackbar.LENGTH_SHORT).show()
                 dialog.dismiss()

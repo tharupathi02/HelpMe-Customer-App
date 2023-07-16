@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.HomeFragment">
+    tools:context=".Screens.HomeActivity">
 
     <RelativeLayout
         android:id="@+id/layoutTopHeader"
@@ -273,6 +273,168 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/nearby_shops"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardMyEmergency"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="8dp"
+                        android:backgroundTint="@color/white"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center"
+                        style="@style/Widget.Material3.CardView.Filled">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ask_question"
+                            android:padding="10dp"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/my_request"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardMyBooking"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="8dp"
+                        android:backgroundTint="@color/white"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center"
+                        style="@style/Widget.Material3.CardView.Filled">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/calendar"
+                            android:padding="10dp"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/my_booking"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardChat"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="8dp"
+                        android:backgroundTint="@color/white"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center"
+                        style="@style/Widget.Material3.CardView.Filled">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/chat"
+                            android:padding="10dp"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/messages_and_chat"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardProfile"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="8dp"
+                        android:backgroundTint="@color/white"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center"
+                        style="@style/Widget.Material3.CardView.Filled">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/avatar"
+                            android:padding="10dp"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/my_nprofile"
                         android:textColor="@color/black"
                         android:fontFamily="@font/poppins"
                         android:textAlignment="center"

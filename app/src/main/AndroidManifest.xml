@@ -30,6 +30,18 @@
         android:theme="@style/Theme.CustomerApp"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.CurrentLocationView"
+            android:exported="false" />
+        <activity
+            android:name=".Screens.MyProfile"
+            android:exported="false" />
+        <activity
+            android:name=".Screens.MyEmergencyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Screens.HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".Screens.ActivityDoneScreen"
             android:exported="false" />
         <activity
@@ -62,9 +74,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Screens.MainActivity"
-            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

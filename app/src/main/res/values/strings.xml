@@ -29,4 +29,8 @@
     <string name="your_location">Your Location</string>
     <string name="check_your_location_here">Check Your Location Here</string>
     <string name="write_a_comment">Write a Comment</string>
+    <string name="my_request">My Requests</string>
+    <string name="my_booking">My\nBooking</string>
+    <string name="messages_and_chat">Messages and Chat</string>
+    <string name="my_nprofile">My\nProfile</string>
 </resources>

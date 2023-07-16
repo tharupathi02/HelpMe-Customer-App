@@ -1,47 +1,31 @@
-package com.leoxtech.customerapp.Fragments
+package com.leoxtech.customerapp.Screens
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
 import com.leoxtech.customerapp.Common.Common
-import com.leoxtech.customerapp.Model.UserModel
-import com.leoxtech.customerapp.Screens.ProfileActivity
 import com.leoxtech.customerapp.R
-import com.leoxtech.customerapp.Screens.SplashScreen
-import com.leoxtech.customerapp.Screens.UpdateProfile
-import com.leoxtech.customerapp.databinding.FragmentProfileBinding
+import com.leoxtech.customerapp.databinding.ActivityMyprofileBinding
+import com.leoxtech.customerapp.databinding.ActivityProfileBinding
 
-class ProfileFragment : Fragment() {
+class MyProfile : AppCompatActivity() {
 
-    private lateinit var binding: FragmentProfileBinding
+    private lateinit var binding: ActivityMyprofileBinding
 
     private lateinit var dbRef: DatabaseReference
     private lateinit var mAuth: FirebaseAuth
     private lateinit var dialog: AlertDialog
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMyprofileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -61,11 +45,11 @@ class ProfileFragment : Fragment() {
         }
 
         binding.cardProfile.setOnClickListener {
-            startActivity(Intent(context, ProfileActivity::class.java))
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
 
         binding.cardUpdateProfile.setOnClickListener {
-            startActivity(Intent(context, UpdateProfile::class.java))
+            startActivity(Intent(this, UpdateProfile::class.java))
         }
     }
 
@@ -87,7 +71,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun dialogBox() {
-        AlertDialog.Builder(context).apply {
+        AlertDialog.Builder(this).apply {
             setCancelable(false)
             setView(R.layout.progress_dialog)
         }.create().also {
@@ -97,7 +81,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun signOut() {
-        MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder(this)
             .setTitle("LogOut")
             .setMessage("Are you absolutely sure you want to log out? Confirm your decision by clicking 'Yes' to log out or 'Cancel' to continue your current session.")
             .setIcon(R.drawable.baseline_exit_to_app_24)
@@ -108,10 +92,10 @@ class ProfileFragment : Fragment() {
                 Common.currentUser = null
                 FirebaseAuth.getInstance().signOut()
 
-                val intent = Intent(context, SplashScreen::class.java)
+                val intent = Intent(this, SplashScreen::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
-                activity?.finish()
+                finish()
 
                 dialog.dismiss()
             }
@@ -122,4 +106,5 @@ class ProfileFragment : Fragment() {
         super.onStart()
         profileInfo()
     }
+
 }

@@ -40,7 +40,7 @@ class SignUpPage2 : AppCompatActivity() {
 
     private fun clickListeners() {
         binding.txtSkipForm.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, HomeActivity::class.java))
         }
 
         binding.btnSignUp.setOnClickListener {
@@ -88,7 +88,7 @@ class SignUpPage2 : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Snackbar.make(binding.root, "Congratulation! Registration Completed...", Snackbar.LENGTH_SHORT).show()
                     Common.currentUser = userModel
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, HomeActivity::class.java))
                     finish()
                     dialog.dismiss()
                 } else {
