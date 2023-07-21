@@ -1,5 +1,7 @@
 package com.leoxtech.customerapp.Adapter
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -16,20 +18,26 @@ import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.leoxtech.customerapp.Common.Common
 import com.leoxtech.customerapp.Model.RequestHelpModel
+import com.leoxtech.customerapp.Model.Review
 import com.leoxtech.customerapp.R
 import com.leoxtech.customerapp.Screens.ActivityDoneScreen
 import pl.droidsonroids.gif.GifImageView
 
 class UrgentRequestAdapter (internal var context: Context, private var urgentRequestList: List<RequestHelpModel>) : RecyclerView.Adapter<UrgentRequestAdapter.MyViewHolder>() {
 
+    private lateinit var dialogLoading: AlertDialog
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UrgentRequestAdapter.MyViewHolder {
         return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.urgent_request_item, parent, false))
     }
 
-    override fun onBindViewHolder(holder: UrgentRequestAdapter.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: UrgentRequestAdapter.MyViewHolder, @SuppressLint("RecyclerView") position: Int) {
         holder.txtUrgentRequestTitle!!.text = urgentRequestList.get(position).customerIssueTitle
         holder.txtUrgentRequestDescription!!.text = urgentRequestList.get(position).customerIssueDescription
         holder.txtUrgentRequest!!.text = urgentRequestList.get(position).status
@@ -75,7 +83,7 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
                 }
         }
 
-        if (urgentRequestList.get(position).garageReviewValue == 0.0.toFloat() && urgentRequestList.get(position).status.equals("Completed")) {
+        if (urgentRequestList.get(position).garageReview?.get(0)?.ratingValue == 0.0.toFloat() && urgentRequestList.get(position).status.equals("Completed")) {
             holder.btnReview!!.visibility = View.VISIBLE
             holder.btnReview?.setOnClickListener {
                 val builder = MaterialAlertDialogBuilder(context)
@@ -130,31 +138,59 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
                     dialog.dismiss()
                 }
                 builder.setPositiveButton("Add Review") { dialog, _ ->
-                    val review = HashMap<String, Any>()
-                    review.put("garageUid", urgentRequestList.get(position).garageUid!!)
-                    review.put("customerUid", urgentRequestList.get(position).customerUid!!)
-                    review.put("ratingValue", ratingGarage)
-                    review.put("comment", txtComment.editText!!.text.toString())
 
-                    FirebaseDatabase.getInstance().getReference(Common.REQUEST_REF).child(urgentRequestList.get(position).key!!)
-                        .child("garageReview").setValue(review)
-                        .addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                FirebaseDatabase.getInstance().getReference(Common.REQUEST_REF).child(urgentRequestList.get(position).key!!).child("garageReviewValue").setValue(ratingGarage)
-                                    .addOnCompleteListener {
-                                        if (it.isSuccessful) {
-                                            dialog.dismiss()
-                                            startActivity(context, Intent(context, ActivityDoneScreen::class.java)
-                                                .putExtra("titleText", "Review Added Successfully !")
-                                                .putExtra("subTitleText", "Thank you for your review. Your review is very important to us to improve our service.\n\nWe hope to see you again ! Have a nice day ! ")
-                                                .putExtra("buttonText", "Go Back")
-                                                .putExtra("activity", "GoBack"), null)
+                    FirebaseDatabase.getInstance().getReference(Common.GARAGE_REF).child(urgentRequestList.get(position).garageUid!!).child("garageReview")
+                        .child("0")
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.exists()) {
+                                    dialogLoading.show()
+                                    val currentRatingValue = snapshot.child("ratingValue").value.toString().toFloat()
+                                    val currentRatingCount = snapshot.child("ratingCount").value.toString().toInt()
+
+                                    val reviewSum = Review()
+                                    reviewSum.garageId = urgentRequestList.get(position).garageUid!!
+                                    reviewSum.customerId = urgentRequestList.get(position).customerUid!!
+                                    reviewSum.ratingValue = (currentRatingValue!! + ratingGarage) / (currentRatingCount!! + 1)
+                                    reviewSum.ratingCount = currentRatingCount + 1
+                                    reviewSum.comment = ""
+
+                                    val review = Review()
+                                    review.garageId = urgentRequestList.get(position).garageUid!!
+                                    review.customerId = urgentRequestList.get(position).customerUid!!
+                                    review.ratingValue = ratingGarage
+                                    review.ratingCount = 1
+                                    review.comment = txtComment.editText!!.text.toString()
+
+
+                                    FirebaseDatabase.getInstance().getReference(Common.GARAGE_REF).child(urgentRequestList.get(position).garageUid!!)
+                                        .child("garageReview").child("0").setValue(reviewSum)
+                                        .addOnCompleteListener {
+                                            if (it.isSuccessful) {
+                                                FirebaseDatabase.getInstance().getReference(Common.REQUEST_REF).child(urgentRequestList.get(position).key!!)
+                                                    .child("garageReview").child("0").setValue(review)
+                                                    .addOnCompleteListener {
+                                                        dialogLoading.dismiss()
+                                                        startActivity(context, Intent(context, ActivityDoneScreen::class.java)
+                                                            .putExtra("titleText", "Review Added Successfully !")
+                                                            .putExtra("subTitleText", "Thank you for your review. Your review is very important to us to improve our service.\n\nWe hope to see you again ! Have a nice day ! ")
+                                                            .putExtra("buttonText", "Go Back")
+                                                            .putExtra("activity", "GoBack"), null)
+                                                    }
+                                            } else {
+                                                dialogLoading.dismiss()
+                                                Toast.makeText(context, "Review failed", Toast.LENGTH_SHORT).show()
+                                            }
                                         }
-                                    }
-                            } else {
-                                Toast.makeText(context, "Review failed", Toast.LENGTH_SHORT).show()
+
+                                }
                             }
-                        }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                dialogLoading.dismiss()
+                                Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+                            }
+                        })
                 }
 
                 builder.setView(view)
@@ -192,7 +228,18 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
             btnCancel = itemView.findViewById(R.id.btnCancel) as Button
             btnReview = itemView.findViewById(R.id.btnReview) as Button
             cardUrgentRequest = itemView.findViewById(R.id.cardUrgentRequest) as MaterialCardView
+            dialogBox()
 
+        }
+    }
+
+    private fun dialogBox() {
+        AlertDialog.Builder(context).apply {
+            setCancelable(false)
+            setView(R.layout.progress_dialog)
+        }.create().also {
+            dialogLoading = it
+            dialogLoading.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         }
     }
 }

@@ -40,7 +40,7 @@ class PopularGarageAdapter(internal var context: Context, private var popularGar
         Glide.with(context).load(popularGarageList.get(position).photoURL).into(holder.imgGarageImage!!)
         holder.txtGarageName!!.setText(popularGarageList.get(position).companyName)
         holder.txtGarageDescription!!.setText(popularGarageList.get(position).description)
-        holder.ratingBar!!.rating = popularGarageList.get(position).garageRatingValue
+        holder.ratingBar!!.rating = popularGarageList.get(position).garageReview!![0].ratingValue.toString().toFloat()
     }
 
     override fun getItemCount(): Int {

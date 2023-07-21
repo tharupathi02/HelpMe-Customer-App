@@ -17,6 +17,8 @@ class RequestHelpModel {
     var garageUid: String? = null
     var timeStamp: String? = null
 
+    var garageReview: List<Review>? = ArrayList<Review>()
+
     var garageReviewValue: Float? = 0.0.toFloat()
     var garageReviewComment: String? = null
 

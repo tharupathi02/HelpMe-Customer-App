@@ -32,6 +32,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.leoxtech.customerapp.Adapter.ImageAdapter
 import com.leoxtech.customerapp.Common.Common
 import com.leoxtech.customerapp.Model.RequestHelpModel
+import com.leoxtech.customerapp.Model.Review
 import com.leoxtech.customerapp.R
 import com.leoxtech.customerapp.databinding.ActivityRequestHelpBinding
 import java.io.IOException
@@ -67,34 +68,16 @@ class RequestHelp : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         imageList = ArrayList()
 
+        binding.txtGarageName.text = Common.selectedGarage!!.name
+        binding.ratingBar.rating = Common.selectedGarage!!.garageReview!!.get(0)!!.ratingValue!!.toFloat()
+        garageUserId = Common.selectedGarage!!.uid
+
         dialogBox()
-
-        garageUserId = intent.getStringExtra("garageUserId")
-
-        getGarageDetails(garageUserId)
 
         clickListeners()
 
         getUserCurrentLocation()
 
-    }
-
-    private fun getGarageDetails(garageUserId: String?) {
-        dialog.show()
-        dbRef = Firebase.database.reference.child(Common.GARAGE_REF).child(garageUserId!!)
-        dbRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    binding.txtGarageName.text = snapshot.child("companyName").value.toString()
-                    dialog.dismiss()
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Snackbar.make(binding.root, error.message, Snackbar.LENGTH_SHORT).show()
-                dialog.dismiss()
-            }
-        })
     }
 
     @SuppressLint("MissingPermission")
@@ -224,6 +207,7 @@ class RequestHelp : AppCompatActivity() {
     private fun saveRequestToDb(firebaseImageList: ArrayList<String>) {
         dialog.show()
         val requestHelpModel = RequestHelpModel()
+        val review = Review()
         val keyRef = garageUserId + System.currentTimeMillis()
         requestHelpModel.garageUid = garageUserId
         requestHelpModel.customerUid = Common.currentUser!!.uid
@@ -238,6 +222,14 @@ class RequestHelp : AppCompatActivity() {
         requestHelpModel.customerVehicle = binding.txtVehicleModel.editText!!.text.toString()
         requestHelpModel.timeStamp = System.currentTimeMillis().toString()
         requestHelpModel.key = keyRef
+
+        review.customerId = ""
+        review.garageId = garageUserId
+        review.ratingValue = 0.0.toFloat()
+        review.ratingCount = 0
+        review.comment = ""
+
+        requestHelpModel.garageReview = listOf(review)
 
         dbRef = FirebaseDatabase.getInstance().getReference(Common.REQUEST_REF)
         dbRef.child(keyRef).setValue(requestHelpModel).addOnCompleteListener(this) { task ->
