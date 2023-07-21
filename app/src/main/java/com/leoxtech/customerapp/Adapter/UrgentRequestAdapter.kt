@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -51,10 +52,12 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
             holder.btnRequestAgain!!.visibility = View.GONE
             holder.btnCancel!!.visibility = View.GONE
             holder.btnReview!!.visibility = View.GONE
+            holder.animationView!!.visibility = View.GONE
         } else if (urgentRequestList.get(position).status.equals("Completed")) {
             holder.btnRequestAgain!!.visibility = View.GONE
             holder.btnCancel!!.visibility = View.GONE
             holder.btnReview!!.visibility = View.VISIBLE
+            holder.animationView!!.visibility = View.GONE
         } else {
             holder.btnRequestAgain!!.visibility = View.GONE
             holder.btnCancel!!.visibility = View.VISIBLE
@@ -151,7 +154,7 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
                                     val reviewSum = Review()
                                     reviewSum.garageId = urgentRequestList.get(position).garageUid!!
                                     reviewSum.customerId = urgentRequestList.get(position).customerUid!!
-                                    reviewSum.ratingValue = (currentRatingValue!! + ratingGarage) / (currentRatingCount!! + 1)
+                                    reviewSum.ratingValue = currentRatingValue + ratingGarage
                                     reviewSum.ratingCount = currentRatingCount + 1
                                     reviewSum.comment = ""
 
@@ -170,12 +173,16 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
                                                 FirebaseDatabase.getInstance().getReference(Common.REQUEST_REF).child(urgentRequestList.get(position).key!!)
                                                     .child("garageReview").child("0").setValue(review)
                                                     .addOnCompleteListener {
-                                                        dialogLoading.dismiss()
-                                                        startActivity(context, Intent(context, ActivityDoneScreen::class.java)
-                                                            .putExtra("titleText", "Review Added Successfully !")
-                                                            .putExtra("subTitleText", "Thank you for your review. Your review is very important to us to improve our service.\n\nWe hope to see you again ! Have a nice day ! ")
-                                                            .putExtra("buttonText", "Go Back")
-                                                            .putExtra("activity", "GoBack"), null)
+                                                        FirebaseDatabase.getInstance().getReference(Common.REVIEW_REF).child(urgentRequestList.get(position).garageUid!!)
+                                                            .child("garageReview").setValue(review)
+                                                            .addOnCompleteListener {
+                                                                dialogLoading.dismiss()
+                                                                startActivity(context, Intent(context, ActivityDoneScreen::class.java)
+                                                                    .putExtra("titleText", "Review Added Successfully !")
+                                                                    .putExtra("subTitleText", "Thank you for your review. Your review is very important to us to improve our service.\n\nWe hope to see you again ! Have a nice day ! ")
+                                                                    .putExtra("buttonText", "Go Back")
+                                                                    .putExtra("activity", "GoBack"), null)
+                                                            }
                                                     }
                                             } else {
                                                 dialogLoading.dismiss()
@@ -218,6 +225,7 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
         var btnCancel: Button? = null
         var btnReview: Button? = null
         var cardUrgentRequest: MaterialCardView? = null
+        var animationView: LottieAnimationView? = null
 
         init {
             imgUrgentRequest = itemView.findViewById(R.id.imgUrgentRequest) as ImageView
@@ -228,6 +236,7 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
             btnCancel = itemView.findViewById(R.id.btnCancel) as Button
             btnReview = itemView.findViewById(R.id.btnReview) as Button
             cardUrgentRequest = itemView.findViewById(R.id.cardUrgentRequest) as MaterialCardView
+            animationView = itemView.findViewById(R.id.animationView) as LottieAnimationView
             dialogBox()
 
         }
