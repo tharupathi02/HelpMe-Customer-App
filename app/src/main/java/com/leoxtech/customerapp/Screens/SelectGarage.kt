@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -35,6 +36,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.leoxtech.customerapp.Common.Common
+import com.leoxtech.customerapp.Model.GarageModel
 import com.leoxtech.customerapp.R
 import com.leoxtech.customerapp.databinding.ActivitySelectGarageBinding
 
@@ -182,8 +184,10 @@ class SelectGarage : AppCompatActivity() {
                     txtGarageDescription.text = snapshot.child("description").value.toString()
                     txtGarageWorkingHours.text = snapshot.child("workingHours").value.toString()
                     Glide.with(this@SelectGarage).load(snapshot.child("photoURL").value.toString()).into(imgGarage)
+                    ratingBar.rating = snapshot.child("garageReview").child("0").child("ratingValue").value.toString().toFloat()
                     btnRequestHelp.setOnClickListener {
-                        startActivity(Intent(this@SelectGarage, RequestHelp::class.java).putExtra("garageUserId", uID))
+                        Common.selectedGarage = snapshot.getValue(GarageModel::class.java)
+                        startActivity(Intent(this@SelectGarage, RequestHelp::class.java))
                     }
                     bottomSheetDialog.show()
                     dialog.dismiss()

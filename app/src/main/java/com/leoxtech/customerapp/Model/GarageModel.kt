@@ -16,6 +16,8 @@ class GarageModel {
     var workingVehicleTypes: String? = null
     var workingHours: String? = null
 
+    var garageReview: List<Review>? = ArrayList<Review>()
+
     var garageRatingValue:Float = 0.toFloat()
     var garageRatingCount:Long = 0.toLong()
 
