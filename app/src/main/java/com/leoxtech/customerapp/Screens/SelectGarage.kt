@@ -184,7 +184,7 @@ class SelectGarage : AppCompatActivity() {
                     txtGarageDescription.text = snapshot.child("description").value.toString()
                     txtGarageWorkingHours.text = snapshot.child("workingHours").value.toString()
                     Glide.with(this@SelectGarage).load(snapshot.child("photoURL").value.toString()).into(imgGarage)
-                    ratingBar.rating = snapshot.child("garageReview").child("0").child("ratingValue").value.toString().toFloat()
+                    ratingBar.rating = snapshot.child("garageReview").child("0").child("ratingValue").value.toString().toFloat() / snapshot.child("garageReview").child("0").child("ratingCount").value.toString().toFloat()
                     btnRequestHelp.setOnClickListener {
                         Common.selectedGarage = snapshot.getValue(GarageModel::class.java)
                         startActivity(Intent(this@SelectGarage, RequestHelp::class.java))
