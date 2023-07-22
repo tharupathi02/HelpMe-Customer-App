@@ -56,7 +56,6 @@ class RequestHelp : AppCompatActivity() {
 
     private var garageUserId: String? = null
 
-    private val PICK_IMAGE = 1
     private lateinit var imageList: ArrayList<Uri>
     private var imageUri: Uri? = null
 
@@ -245,13 +244,6 @@ class RequestHelp : AppCompatActivity() {
                 dialog.dismiss()
             }
         }
-    }
-
-    private fun pickImagesFromGallery() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        startActivityForResult(intent, PICK_IMAGE)
     }
 
     @Deprecated("Deprecated in Java")
