@@ -8,6 +8,7 @@ import com.leoxtech.customerapp.Screens.SelectGarage
 
 object Common {
 
+    val BOOKING_REF: String = "Bookings"
     var selectedGarage: GarageModel? = null
     const val REQUEST_REF = "Requests"
     const val USER_REFERENCE = "Users"
@@ -17,4 +18,7 @@ object Common {
     const val REVIEW_REF = "Reviews"
     var currentUser: UserModel? = null
 
+    fun ratingCalculate(ratingValue: Float, ratingCount: Float): Float {
+        return ratingValue / ratingCount
+    }
 }

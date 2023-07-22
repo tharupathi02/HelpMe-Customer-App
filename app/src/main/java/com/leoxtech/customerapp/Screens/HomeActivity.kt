@@ -93,6 +93,10 @@ class HomeActivity : AppCompatActivity() {
         binding.cardLocation.setOnClickListener {
             startActivity(Intent(this, CurrentLocationView::class.java))
         }
+
+        binding.cardMakeBooking.setOnClickListener {
+            startActivity(Intent(this, NewBooking::class.java))
+        }
     }
 
     @SuppressLint("MissingPermission")

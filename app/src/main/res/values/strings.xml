@@ -33,4 +33,5 @@
     <string name="my_booking">My\nBooking</string>
     <string name="messages_and_chat">Messages and Chat</string>
     <string name="my_nprofile">My\nProfile</string>
+    <string name="booking_note">Please fill the form below to book a new appointment. All fields are required. Once you submit the form, Garage will approve your appointment and you will be notified in the \'My Bookings\' section.</string>
 </resources>

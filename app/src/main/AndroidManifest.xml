@@ -30,6 +30,9 @@
         android:theme="@style/Theme.CustomerApp"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.NewBooking"
+            android:exported="false" />
+        <activity
             android:name=".Screens.CurrentLocationView"
             android:exported="false" />
         <activity
@@ -49,7 +52,7 @@
             android:exported="false" />
         <activity
             android:name=".Screens.RequestHelp"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Screens.UpdateProfile"
             android:exported="false" />
