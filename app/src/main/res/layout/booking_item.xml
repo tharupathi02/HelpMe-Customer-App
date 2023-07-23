@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardBookingRequest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/white"
+        style="@style/Widget.Material3.CardView.Filled">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="8dp"
+                        android:layout_margin="20dp"
+                        android:backgroundTint="@color/white"
+                        android:layout_gravity="center_vertical"
+                        style="@style/Widget.Material3.CardView.Filled">
+
+                        <ImageView
+                            android:id="@+id/imgBookingRequest"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/ic_launcher"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/txtBookingRequestTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Urgent Request Title"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="20dp"/>
+
+                        <TextView
+                            android:id="@+id/txtBookingRequestDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Booking Request Description"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:maxLines="3"
+                            android:fontFamily="@font/poppins"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="20dp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtBookingRequest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:fontFamily="@font/poppins"
+                    android:text="Urgent"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:lottie_rawRes="@raw/urgent_animation"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="5dp"/>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>
