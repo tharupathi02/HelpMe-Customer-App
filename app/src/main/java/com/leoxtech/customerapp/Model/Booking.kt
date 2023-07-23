@@ -14,4 +14,5 @@ class Booking {
     var bookingStatus: String? = null
     var bookingType: String? = null
     var customerAddress: String? = null
+    var bookingNote: String? = null
 }

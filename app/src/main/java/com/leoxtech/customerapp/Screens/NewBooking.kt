@@ -199,6 +199,7 @@ class NewBooking : AppCompatActivity() {
                         bookingModel.imageList = firebaseImageList
                         bookingModel.bookingStatus = "Pending"
                         bookingModel.bookingType = bookingType
+                        bookingModel.bookingNote = ""
 
                         if (bookingType == "Garage Visit") {
                             bookingModel.customerAddress = ""
