@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.leoxtech.customerapp.Common.Common
 import com.leoxtech.customerapp.Model.GarageModel
 import com.leoxtech.customerapp.R
 
@@ -40,7 +41,7 @@ class PopularGarageAdapter(internal var context: Context, private var popularGar
         Glide.with(context).load(popularGarageList.get(position).photoURL).into(holder.imgGarageImage!!)
         holder.txtGarageName!!.setText(popularGarageList.get(position).companyName)
         holder.txtGarageDescription!!.setText(popularGarageList.get(position).description)
-        holder.ratingBar!!.rating = popularGarageList.get(position).garageReview!![0].ratingValue.toString().toFloat() / popularGarageList.get(position).garageReview!![0].ratingCount.toString().toFloat()
+        holder.ratingBar!!.rating = Common.ratingCalculate(popularGarageList.get(position).garageReview!![0].ratingValue.toString().toFloat(), popularGarageList.get(position).garageReview!![0].ratingCount.toString().toFloat())
     }
 
     override fun getItemCount(): Int {
