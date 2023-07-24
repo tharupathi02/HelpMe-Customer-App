@@ -36,6 +36,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.leoxtech.customerapp.Adapter.ImageAdapter
 import com.leoxtech.customerapp.Common.Common
 import com.leoxtech.customerapp.Model.Booking
+import com.leoxtech.customerapp.Model.Review
 import com.leoxtech.customerapp.R
 import com.leoxtech.customerapp.databinding.ActivityNewBookingBinding
 import kotlin.time.Duration
@@ -206,6 +207,13 @@ class NewBooking : AppCompatActivity() {
                         } else {
                             bookingModel.customerAddress = Common.currentUser!!.address
                         }
+
+                        var review = Review()
+                        review.ratingCount = 0
+                        review.ratingValue = 0.0.toFloat()
+                        review.comment = ""
+
+                        bookingModel.bookingReview = listOf(review)
 
                         dbRef = FirebaseDatabase.getInstance().getReference(Common.BOOKING_REF)
                         dbRef.child(keyRef).setValue(bookingModel).addOnCompleteListener(this) { task ->

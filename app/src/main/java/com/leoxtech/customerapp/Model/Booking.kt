@@ -15,4 +15,6 @@ class Booking {
     var bookingType: String? = null
     var customerAddress: String? = null
     var bookingNote: String? = null
+    var bookingReview: List<Review>? = ArrayList<Review>()
+
 }

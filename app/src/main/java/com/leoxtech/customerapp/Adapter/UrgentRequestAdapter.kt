@@ -173,7 +173,7 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
                                                 FirebaseDatabase.getInstance().getReference(Common.REQUEST_REF).child(urgentRequestList.get(position).key!!)
                                                     .child("garageReview").child("0").setValue(review)
                                                     .addOnCompleteListener {
-                                                        FirebaseDatabase.getInstance().getReference(Common.REVIEW_REF).child(urgentRequestList.get(position).garageUid!!)
+                                                        FirebaseDatabase.getInstance().getReference(Common.REVIEW_REF).child(urgentRequestList.get(position).garageUid!! + "-" + System.currentTimeMillis())
                                                             .child("garageReview").setValue(review)
                                                             .addOnCompleteListener {
                                                                 dialogLoading.dismiss()
