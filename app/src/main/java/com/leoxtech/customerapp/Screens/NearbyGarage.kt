@@ -5,15 +5,13 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.LocationServices
@@ -22,9 +20,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -38,11 +34,11 @@ import com.google.firebase.ktx.Firebase
 import com.leoxtech.customerapp.Common.Common
 import com.leoxtech.customerapp.Model.GarageModel
 import com.leoxtech.customerapp.R
-import com.leoxtech.customerapp.databinding.ActivitySelectGarageBinding
+import com.leoxtech.customerapp.databinding.ActivityNearbyGarageBinding
 
-class SelectGarage : AppCompatActivity() {
+class NearbyGarage : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySelectGarageBinding
+    private lateinit var binding: ActivityNearbyGarageBinding
 
     private lateinit var dbRef: DatabaseReference
     private lateinit var mAuth: FirebaseAuth
@@ -57,11 +53,11 @@ class SelectGarage : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySelectGarageBinding.inflate(layoutInflater)
+        binding = ActivityNearbyGarageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         mAuth = FirebaseAuth.getInstance()
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+        val mapFragment = this.supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mapFragment.getMapAsync { googleMap ->
             mMap = googleMap
         }
@@ -71,12 +67,7 @@ class SelectGarage : AppCompatActivity() {
         clickListeners()
 
         getLocationsFromFirebase()
-    }
 
-    private fun clickListeners() {
-        binding.cardBack.setOnClickListener {
-            finish()
-        }
     }
 
     private fun getLocationsFromFirebase() {
@@ -147,6 +138,10 @@ class SelectGarage : AppCompatActivity() {
                         true
                     }
 
+                    binding.cardMyLocation.setOnClickListener {
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13f))
+                    }
+
                     dialog.dismiss()
 
                 }
@@ -155,7 +150,7 @@ class SelectGarage : AppCompatActivity() {
         dialog.dismiss()
     }
 
-    private fun bitmapDescriptor(selectGarage: SelectGarage, vectorResId: Int): BitmapDescriptor? {
+    private fun bitmapDescriptor(selectGarage: NearbyGarage, vectorResId: Int): BitmapDescriptor? {
         val vectorDrawable = ContextCompat.getDrawable(selectGarage, vectorResId)
         vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
         val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
@@ -171,7 +166,7 @@ class SelectGarage : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val view: View = layoutInflater.inflate(R.layout.garage_details_bottom_sheet, null)
-                    val bottomSheetDialog = BottomSheetDialog(this@SelectGarage)
+                    val bottomSheetDialog = BottomSheetDialog(this@NearbyGarage)
                     bottomSheetDialog.setContentView(view)
                     val txtGarageName = view.findViewById<TextView>(R.id.txtGarageName)
                     val imgGarage = view.findViewById<ImageView>(R.id.imgGarage)
@@ -179,15 +174,14 @@ class SelectGarage : AppCompatActivity() {
                     val txtGarageWorkingHours = view.findViewById<TextView>(R.id.txtGarageWorkingHours)
                     val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
                     val btnRequestHelp = view.findViewById<Button>(R.id.btnRequestHelp)
+                    val btnViewGarage = view.findViewById<Button>(R.id.btnViewGarage)
                     txtGarageName.text = snapshot.child("companyName").value.toString()
                     txtGarageDescription.text = snapshot.child("description").value.toString()
                     txtGarageWorkingHours.text = snapshot.child("workingHours").value.toString()
-                    Glide.with(this@SelectGarage).load(snapshot.child("photoURL").value.toString()).into(imgGarage)
+                    Glide.with(this@NearbyGarage).load(snapshot.child("photoURL").value.toString()).into(imgGarage)
                     ratingBar.rating = Common.ratingCalculate(snapshot.child("garageReview").child("0").child("ratingValue").value.toString().toFloat(), snapshot.child("garageReview").child("0").child("ratingCount").value.toString().toFloat())
-                    btnRequestHelp.setOnClickListener {
-                        Common.selectedGarage = snapshot.getValue(GarageModel::class.java)
-                        startActivity(Intent(this@SelectGarage, RequestHelp::class.java))
-                    }
+                    btnRequestHelp.visibility = View.GONE
+                    btnViewGarage.visibility = View.GONE
                     bottomSheetDialog.show()
                     dialog.dismiss()
                 }
@@ -200,6 +194,12 @@ class SelectGarage : AppCompatActivity() {
         })
     }
 
+    private fun clickListeners() {
+        binding.cardBack.setOnClickListener {
+            finish()
+        }
+    }
+
     private fun dialogBox() {
         AlertDialog.Builder(this).apply {
             setCancelable(false)
@@ -209,5 +209,4 @@ class SelectGarage : AppCompatActivity() {
             dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         }
     }
-
 }
