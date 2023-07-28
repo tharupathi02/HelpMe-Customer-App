@@ -101,6 +101,10 @@ class HomeActivity : AppCompatActivity() {
         binding.cardMyBooking.setOnClickListener {
             startActivity(Intent(this, MyBookings::class.java))
         }
+
+        binding.cardNearbyGarage.setOnClickListener {
+            startActivity(Intent(this, NearbyGarage::class.java))
+        }
     }
 
     @SuppressLint("MissingPermission")

@@ -30,6 +30,9 @@
         android:theme="@style/Theme.CustomerApp"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.NearbyGarage"
+            android:exported="false" />
+        <activity
             android:name=".Screens.BookingDetails"
             android:exported="false" />
         <activity
