@@ -154,16 +154,22 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
                                     val reviewSum = Review()
                                     reviewSum.garageId = urgentRequestList.get(position).garageUid!!
                                     reviewSum.customerId = urgentRequestList.get(position).customerUid!!
+                                    reviewSum.customerName = urgentRequestList.get(position).customerName!!
+                                    reviewSum.customerAvatar = Common.currentUser!!.photoURL!!
                                     reviewSum.ratingValue = currentRatingValue + ratingGarage
                                     reviewSum.ratingCount = currentRatingCount + 1
                                     reviewSum.comment = ""
+                                    reviewSum.time = System.currentTimeMillis().toString()
 
                                     val review = Review()
                                     review.garageId = urgentRequestList.get(position).garageUid!!
                                     review.customerId = urgentRequestList.get(position).customerUid!!
+                                    reviewSum.customerName = urgentRequestList.get(position).customerName!!
+                                    reviewSum.customerAvatar = Common.currentUser!!.photoURL!!
                                     review.ratingValue = ratingGarage
                                     review.ratingCount = 1
                                     review.comment = txtComment.editText!!.text.toString()
+                                    review.time = System.currentTimeMillis().toString()
 
 
                                     FirebaseDatabase.getInstance().getReference(Common.GARAGE_REF).child(urgentRequestList.get(position).garageUid!!)

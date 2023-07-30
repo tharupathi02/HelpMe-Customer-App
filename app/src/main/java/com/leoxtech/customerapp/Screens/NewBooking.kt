@@ -74,7 +74,6 @@ class NewBooking : AppCompatActivity() {
 
         clickListeners()
 
-
     }
 
     private fun clickListeners() {

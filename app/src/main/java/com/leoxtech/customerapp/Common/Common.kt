@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.leoxtech.customerapp.Model.GarageModel
 import com.leoxtech.customerapp.Model.UserModel
 import com.leoxtech.customerapp.Screens.SelectGarage
+import java.text.SimpleDateFormat
 
 object Common {
 
@@ -20,5 +21,9 @@ object Common {
 
     fun ratingCalculate(ratingValue: Float, ratingCount: Float): Float {
         return ratingValue / ratingCount
+    }
+
+    fun convertTimeStampToDate(toLong: Long): CharSequence? {
+        return SimpleDateFormat("MMMM dd, yyyy hh:mm aa").format(toLong)
     }
 }
