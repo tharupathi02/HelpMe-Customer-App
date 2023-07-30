@@ -91,8 +91,8 @@ class GarageView : AppCompatActivity() {
                             binding.txtGarageWorkingHours.text = garage.workingHours
                             binding.txtGarageVechicles.text = garage.workingVehicleTypes
 
-                            binding.ratingBar.rating = garage.garageReview!!.get(0).ratingValue!!.toFloat()
-                            binding.txtGarageRating.text = String.format("%.2f", Common.ratingCalculate(garage.garageReview!!.get(0).ratingValue!!.toFloat(), garage.garageReview!!.get(0).ratingCount!!.toFloat()))
+                            binding.ratingBar.rating = String.format("%.1f", garage.garageReview!!.get(0).ratingValue!!.toFloat()).toFloat()
+                            binding.txtGarageRating.text = String.format("%.1f", Common.ratingCalculate(garage.garageReview!!.get(0).ratingValue!!.toFloat(), garage.garageReview!!.get(0).ratingCount!!.toFloat()))
 
                             latitude = garage.latitude!!.toDouble()
                             longitude = garage.longitude!!.toDouble()
