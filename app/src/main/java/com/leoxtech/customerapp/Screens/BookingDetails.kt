@@ -239,13 +239,17 @@ class BookingDetails : AppCompatActivity() {
                                 val reviewSum = Review()
                                 reviewSum.ratingValue = currentRatingValue + ratingGarage
                                 reviewSum.ratingCount = currentRatingCount + 1
+                                reviewSum.time = System.currentTimeMillis().toString()
 
                                 val review = Review()
                                 review.garageId = garageId
                                 review.customerId = customerId
+                                reviewSum.customerName = Common.currentUser!!.name!!
+                                reviewSum.customerAvatar = Common.currentUser!!.photoURL!!
                                 review.ratingValue = ratingGarage
                                 review.ratingCount = 1
                                 review.comment = txtComment.editText!!.text.toString()
+                                reviewSum.time = System.currentTimeMillis().toString()
 
                                 FirebaseDatabase.getInstance().getReference(Common.GARAGE_REF).child(garageId!!)
                                     .child("garageReview").child("0").setValue(reviewSum)

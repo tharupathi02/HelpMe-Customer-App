@@ -74,10 +74,14 @@ class SignIn : AppCompatActivity() {
                     val account = task.getResult(ApiException::class.java)
                     firebaseAuthWithGoogle(account?.idToken!!)
                 }catch (e: ApiException) {
-                    Snackbar.make(binding.root, "Authentication Failed. ${e.message}", Snackbar.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                    binding.cardGoogleSignIn.isEnabled = true
+                    Snackbar.make(binding.root, "${e.message}", Snackbar.LENGTH_SHORT).show()
                 }
             }else{
-                Snackbar.make(binding.root, "Authentication Failed. ${exception?.message}", Snackbar.LENGTH_SHORT).show()
+                dialog.dismiss()
+                binding.cardGoogleSignIn.isEnabled = true
+                Snackbar.make(binding.root, "${exception?.message}", Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -89,7 +93,9 @@ class SignIn : AppCompatActivity() {
                 if (task.isSuccessful) {
                     initial()
                 } else {
-                    Snackbar.make(binding.root, "Authentication Failed. ${task.exception?.message}", Snackbar.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                    binding.cardGoogleSignIn.isEnabled = true
+                    Snackbar.make(binding.root, "${task.exception?.message}", Snackbar.LENGTH_SHORT).show()
                 }
             }
     }
@@ -115,6 +121,8 @@ class SignIn : AppCompatActivity() {
             }
 
             override fun onCancelled(p0: DatabaseError) {
+                dialog.dismiss()
+                binding.cardGoogleSignIn.isEnabled = true
                 Snackbar.make(binding.root, "${p0.message}", Snackbar.LENGTH_SHORT).show()
             }
 
@@ -163,7 +171,7 @@ class SignIn : AppCompatActivity() {
                         user = mAuth.currentUser
                         initial()
                     }else{
-                        Snackbar.make(binding.root, "Authentication Failed. ${task.exception?.message}", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, "${task.exception?.message}", Snackbar.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
                 }
