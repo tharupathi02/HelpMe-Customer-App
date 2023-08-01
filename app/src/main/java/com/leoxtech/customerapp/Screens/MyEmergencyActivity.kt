@@ -63,7 +63,7 @@ class MyEmergencyActivity : AppCompatActivity() {
 
                     requestHelpArrayList.reverse()
 
-                    if (requestHelpArrayList.size > 0) {
+                    if (requestHelpArrayList.isNotEmpty()) {
                         binding.recyclerEmergencyRequest.adapter = UrgentRequestAdapter(this@MyEmergencyActivity, requestHelpArrayList)
                         binding.recyclerEmergencyRequest.layoutManager = LinearLayoutManager(this@MyEmergencyActivity, LinearLayoutManager.VERTICAL, false)
                         binding.txtNoRequestFound.visibility = View.GONE

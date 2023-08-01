@@ -66,7 +66,6 @@
                         android:layout_margin="5dp"
                         app:cardCornerRadius="100dp"
                         android:layout_centerInParent="true"
-                        android:backgroundTint="@color/white"
                         style="@style/Widget.Material3.CardView.Filled">
 
                         <ImageView
@@ -74,7 +73,20 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/avatar"
+                            android:visibility="invisible"
                             android:scaleType="centerCrop"/>
+
+                        <TextView
+                            android:id="@+id/txtAvatar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="AA"
+                            android:fontFamily="@font/poppins_bold"
+                            android:textColor="@color/white"
+                            android:textSize="30sp"
+                            android:visibility="gone"
+                            android:layout_gravity="center"
+                            android:textAlignment="center"/>
 
                     </com.google.android.material.card.MaterialCardView>
 

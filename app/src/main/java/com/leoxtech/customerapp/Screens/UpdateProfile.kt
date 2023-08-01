@@ -30,7 +30,7 @@ class UpdateProfile : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var dialog: AlertDialog
 
-    var selectedImageUri: Uri? = null
+    private var selectedImageUri: Uri? = null
     private var uID = "";
     private var dbImageURL = "";
 

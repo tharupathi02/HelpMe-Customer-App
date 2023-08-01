@@ -3,6 +3,8 @@ package com.leoxtech.customerapp.Screens
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.location.Geocoder
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +13,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -144,7 +147,18 @@ class HomeActivity : AppCompatActivity() {
                         popularArrayList.add(popular!!)
                     }
 
-                    if (popularArrayList.size > 0) {
+                    //sort by rating value, highest to lowest (descending) using bubble sort
+                    for (i in 0 until popularArrayList.size - 1) {
+                        for (j in 0 until popularArrayList.size - 1) {
+                            if (popularArrayList[j].garageReview!!.get(0).ratingValue!! < popularArrayList[j + 1].garageReview!!.get(0).ratingValue!!.toFloat()) {
+                                val temp = popularArrayList[j]
+                                popularArrayList[j] = popularArrayList[j + 1]
+                                popularArrayList[j + 1] = temp
+                            }
+                        }
+                    }
+
+                    if (popularArrayList.isNotEmpty()) {
                         binding.recyclerviewTopGarages.adapter = PopularGarageAdapter(this@HomeActivity, popularArrayList!!)
                         binding.recyclerviewTopGarages.layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
                         binding.txtNoGaragesFound.visibility = View.GONE
@@ -170,12 +184,15 @@ class HomeActivity : AppCompatActivity() {
         dialog.show()
         if (Common.currentUser != null) {
             binding.txtCustomerName.text = Common.currentUser!!.name
-            if (Common.currentUser!!.photoURL != null) {
+            if (Common.currentUser!!.photoURL!!.isNotBlank()) {
+                binding.imgAvatar.visibility = View.VISIBLE
                 Glide.with(this).load(Common.currentUser!!.photoURL).into(binding.imgAvatar)
                 dialog.dismiss()
             } else {
-                binding.imgAvatar.setImageResource(R.drawable.avatar)
-                dialog.dismiss()
+                binding.cardAvatar.setCardBackgroundColor(Color.parseColor("#FBC146"))
+                binding.imgAvatar.visibility = View.GONE
+                binding.txtAvatar.visibility = View.VISIBLE
+                binding.txtAvatar.text = Common.currentUser!!.firstName!!.substring(0, 1) + Common.currentUser!!.lastName!!.substring(0, 1)
             }
         }
 

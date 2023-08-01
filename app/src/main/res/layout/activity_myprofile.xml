@@ -14,9 +14,9 @@
         android:paddingBottom="20dp">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAvatar"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:backgroundTint="@color/white"
             app:cardElevation="30dp"
             app:cardCornerRadius="100dp"
             android:layout_marginTop="20dp"
@@ -28,7 +28,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/avatar"
+                android:visibility="gone"
                 android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/txtAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="AA"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/white"
+                android:textSize="60sp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:textAlignment="center"/>
 
         </com.google.android.material.card.MaterialCardView>
 

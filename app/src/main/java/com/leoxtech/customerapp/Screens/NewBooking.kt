@@ -70,6 +70,7 @@ class NewBooking : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         imageList = ArrayList()
 
+
         dialogBox()
 
         clickListeners()
@@ -281,74 +282,98 @@ class NewBooking : AppCompatActivity() {
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
+                    val garageNameSpinner = ArrayList<String>()
+                    val garageIdSpinner = ArrayList<String>()
+                    garageNameSpinner.add("Select Garage")
                     for (data in snapshot.children) {
-                        val garageNameSpinner = ArrayList<String>()
-                        garageNameSpinner.add("Select Garage")
                         garageNameSpinner.add(data.child("companyName").value.toString())
+                        garageIdSpinner.add(data.child("uid").value.toString())
+                    }
 
-                        val builder = MaterialAlertDialogBuilder(this@NewBooking)
-                        val view = LayoutInflater.from(this@NewBooking).inflate(R.layout.select_garage_dialog, null)
-                        val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
-                        val txtGarageName = view.findViewById<TextView>(R.id.txtGarageName)
-                        val spinnerGarage = view.findViewById<Spinner>(R.id.spinnerGarage)
-                        val txtWorkingHours = view.findViewById<TextView>(R.id.txtWorkingHours)
-                        val txtWorkingVehicles = view.findViewById<TextView>(R.id.txtWorkingVehicles)
+                    val builder = MaterialAlertDialogBuilder(this@NewBooking)
+                    val view = LayoutInflater.from(this@NewBooking).inflate(R.layout.select_garage_dialog, null)
+                    val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
+                    val txtGarageName = view.findViewById<TextView>(R.id.txtGarageName)
+                    val spinnerGarage = view.findViewById<Spinner>(R.id.spinnerGarage)
+                    val txtWorkingHours = view.findViewById<TextView>(R.id.txtWorkingHours)
+                    val txtWorkingVehicles = view.findViewById<TextView>(R.id.txtWorkingVehicles)
 
-                        val adapterSpinner = ArrayAdapter(this@NewBooking, android.R.layout.simple_spinner_dropdown_item, garageNameSpinner)
-                        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        spinnerGarage.adapter = adapterSpinner
+                    val adapterSpinner = ArrayAdapter(this@NewBooking, android.R.layout.simple_spinner_dropdown_item, garageNameSpinner)
+                    adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinnerGarage.adapter = adapterSpinner
 
-                        spinnerGarage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                                if (position == 0) {
-                                    txtGarageName.text = ""
-                                    txtWorkingHours.text = ""
-                                    txtWorkingVehicles.text = ""
-                                    ratingBar.rating = 0.0f
-                                } else {
-                                    txtGarageName.text = data.child("companyName").value.toString()
-                                    garageId = data.child("uid").value.toString()
-                                    txtWorkingHours.text = data.child("workingHours").value.toString()
-                                    txtWorkingVehicles.text = data.child("workingVehicleTypes").value.toString()
-                                    ratingBar.rating = data.child("garageReview").child("0").child("ratingValue").value.toString().toFloat() / data.child("garageReview").child("0").child("ratingCount").value.toString().toFloat()
-                                    ratingBar.rating = Common.ratingCalculate(data.child("garageReview").child("0").child("ratingValue").value.toString().toFloat(), data.child("garageReview").child("0").child("ratingCount").value.toString().toFloat())
-                                }
-                            }
-
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                    spinnerGarage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                            if (position == 0) {
                                 txtGarageName.text = ""
                                 txtWorkingHours.text = ""
                                 txtWorkingVehicles.text = ""
                                 ratingBar.rating = 0.0f
-                            }
-                        }
-
-                        builder.setPositiveButton("Select") { dialog, which ->
-                            if (spinnerGarage.selectedItemPosition != 0) {
-                                binding.txtGarageName.text = spinnerGarage.selectedItem.toString()
-                                binding.ratingBar.rating = ratingBar.rating
                             } else {
-                                Toast.makeText(this@NewBooking, "Please select a garage", Toast.LENGTH_SHORT).show()
+                                showSelectedGarage(garageIdSpinner.get(garageNameSpinner.indexOf(spinnerGarage.selectedItem.toString()) - 1), txtGarageName, txtWorkingHours, txtWorkingVehicles, ratingBar)
                             }
                         }
 
-                        builder.setNegativeButton("Cancel") { dialog, which ->
-                            dialog.dismiss()
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                            txtGarageName.text = ""
+                            txtWorkingHours.text = ""
+                            txtWorkingVehicles.text = ""
+                            ratingBar.rating = 0.0f
                         }
-
-                        builder.setView(view)
-                        builder.setCancelable(false)
-                        val selectGarageDialog = builder.create()
-                        selectGarageDialog.show()
-                        dialog.dismiss()
-
                     }
+
+                    builder.setPositiveButton("Select") { dialog, which ->
+                        if (spinnerGarage.selectedItemPosition != 0) {
+                            binding.txtGarageName.text = spinnerGarage.selectedItem.toString()
+                            binding.ratingBar.rating = ratingBar.rating
+                        } else {
+                            Toast.makeText(this@NewBooking, "Please select a garage", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    builder.setNegativeButton("Cancel") { dialog, which ->
+                        dialog.dismiss()
+                    }
+
+                    builder.setView(view)
+                    builder.setCancelable(false)
+                    val selectGarageDialog = builder.create()
+                    selectGarageDialog.show()
+                    dialog.dismiss()
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
                 dialog.dismiss()
             }
+        })
+    }
+
+    private fun showSelectedGarage(
+        id: String,
+        txtGarageName: TextView?,
+        txtWorkingHours: TextView?,
+        txtWorkingVehicles: TextView?,
+        ratingBar: RatingBar?
+    ) {
+        dialog.show()
+        dbRef = Firebase.database.reference.child(Common.GARAGE_REF).child(id)
+        dbRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    txtGarageName!!.text = snapshot.child("companyName").value.toString()
+                    garageId = snapshot.child("uid").value.toString()
+                    txtWorkingHours!!.text = snapshot.child("workingHours").value.toString()
+                    txtWorkingVehicles!!.text = snapshot.child("workingVehicleTypes").value.toString()
+                    ratingBar!!.rating = Common.ratingCalculate(snapshot.child("garageReview").child("0").child("ratingValue").value.toString().toFloat(), snapshot.child("garageReview").child("0").child("ratingCount").value.toString().toFloat())
+                    dialog.dismiss()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                dialog.dismiss()
+            }
+
         })
     }
 
