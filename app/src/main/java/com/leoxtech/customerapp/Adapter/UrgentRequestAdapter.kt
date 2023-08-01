@@ -62,7 +62,9 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
             holder.btnRequestAgain!!.visibility = View.GONE
             holder.btnCancel!!.visibility = View.VISIBLE
             holder.btnReview!!.visibility = View.GONE
+            holder.animationView!!.visibility = View.GONE
         }
+
 
         holder.btnRequestAgain!!.setOnClickListener {
             FirebaseDatabase.getInstance().getReference(Common.REQUEST_REF).child(urgentRequestList.get(position).key!!).child("status").setValue("Urgent")
@@ -164,8 +166,8 @@ class UrgentRequestAdapter (internal var context: Context, private var urgentReq
                                     val review = Review()
                                     review.garageId = urgentRequestList.get(position).garageUid!!
                                     review.customerId = urgentRequestList.get(position).customerUid!!
-                                    reviewSum.customerName = urgentRequestList.get(position).customerName!!
-                                    reviewSum.customerAvatar = Common.currentUser!!.photoURL!!
+                                    review.customerName = urgentRequestList.get(position).customerName!!
+                                    review.customerAvatar = Common.currentUser!!.photoURL!!
                                     review.ratingValue = ratingGarage
                                     review.ratingCount = 1
                                     review.comment = txtComment.editText!!.text.toString()

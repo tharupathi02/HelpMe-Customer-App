@@ -48,7 +48,11 @@ class PopularGarageAdapter(internal var context: Context, private var popularGar
         Glide.with(context).load(popularGarageList.get(position).photoURL).into(holder.imgGarageImage!!)
         holder.txtGarageName!!.setText(popularGarageList.get(position).companyName)
         holder.txtGarageDescription!!.setText(popularGarageList.get(position).description)
-        holder.ratingBar!!.rating = Common.ratingCalculate(popularGarageList.get(position).garageReview!![0].ratingValue.toString().toFloat(), popularGarageList.get(position).garageReview!![0].ratingCount.toString().toFloat())
+        if (popularGarageList.get(position).garageReview!!.isEmpty()) {
+            holder.ratingBar!!.rating = Common.ratingCalculate(0.0f, 0.0f)
+        } else {
+            holder.ratingBar!!.rating = Common.ratingCalculate(popularGarageList.get(position).garageReview!![0].ratingValue.toString().toFloat(), popularGarageList.get(position).garageReview!![0].ratingCount.toString().toFloat())
+        }
 
         holder.cardGarageItem!!.setOnClickListener {
             startActivity(context, Intent(context, GarageView::class.java).putExtra("garageId", popularGarageList.get(position).uid), null)

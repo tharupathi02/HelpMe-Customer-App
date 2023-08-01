@@ -17,8 +17,6 @@
             app:cardCornerRadius="50dp"
             app:cardElevation="5dp"
             android:backgroundTint="@color/white"
-            android:layout_gravity="center"
-            android:layout_centerVertical="true"
             style="@style/Widget.Material3.CardView.Filled">
 
             <ImageView
